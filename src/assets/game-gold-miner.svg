@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="minerBg" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#451a03" />
+      <stop offset="60%" stop-color="#292524" />
+      <stop offset="100%" stop-color="#0c0a09" />
+    </radialGradient>
+
+    <!-- 24K Gold Ingot & Nugget Gradient -->
+    <linearGradient id="goldNugget" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="25%" stop-color="#fef08a" />
+      <stop offset="60%" stop-color="#eab308" />
+      <stop offset="90%" stop-color="#ca8a04" />
+      <stop offset="100%" stop-color="#854d0e" />
+    </linearGradient>
+
+    <linearGradient id="gemCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cffafe" />
+      <stop offset="40%" stop-color="#38bdf8" />
+      <stop offset="85%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#082f49" />
+    </linearGradient>
+
+    <filter id="minerGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base Canvas -->
+  <rect width="512" height="512" rx="32" fill="url(#minerBg)" />
+  <rect width="504" height="504" x="4" y="4" rx="28" fill="none" stroke="#eab308" stroke-width="2" opacity="0.4" />
+
+  <!-- Cavern Mine Wooden Support Beams -->
+  <polygon points="60,80 100,80 80,480 40,480" fill="#78350f" stroke="#451a03" stroke-width="2" />
+  <polygon points="412,80 452,80 472,480 432,480" fill="#78350f" stroke="#451a03" stroke-width="2" />
+  <rect x="50" y="80" width="412" height="40" rx="4" fill="#92400e" stroke="#451a03" stroke-width="2" />
+
+  <!-- Gold Mine Cart overflowing with Nuggets -->
+  <g transform="translate(180, 240)">
+    <!-- Cart Body -->
+    <polygon points="0,60 150,60 130,140 20,140" fill="#475569" stroke="#1e293b" stroke-width="3" />
+    <line x1="10" y1="100" x2="140" y2="100" stroke="#94a3b8" stroke-width="3" />
+    <!-- Wheels -->
+    <circle cx="35" cy="150" r="18" fill="#1e293b" stroke="#f59e0b" stroke-width="3" />
+    <circle cx="115" cy="150" r="18" fill="#1e293b" stroke="#f59e0b" stroke-width="3" />
+    <circle cx="35" cy="150" r="6" fill="#cbd5e1" />
+    <circle cx="115" cy="150" r="6" fill="#cbd5e1" />
+
+    <!-- Gold Nuggets Pile in Cart -->
+    <g filter="url(#minerGlow)">
+      <polygon points="20,60 45,20 70,60" fill="url(#goldNugget)" stroke="#fff" stroke-width="1" />
+      <polygon points="50,60 80,10 110,60" fill="url(#goldNugget)" stroke="#fff" stroke-width="1" />
+      <polygon points="90,60 120,25 140,60" fill="url(#goldNugget)" stroke="#fff" stroke-width="1" />
+      <!-- Cyan Gem in pile -->
+      <polygon points="75,25 95,45 75,65 55,45" fill="url(#gemCyan)" stroke="#fff" stroke-width="1.5" />
+    </g>
+  </g>
+
+  <!-- Steel Mining Pickaxe in Mid-Swing -->
+  <g transform="translate(360, 160) rotate(35)" filter="url(#minerGlow)">
+    <!-- Wooden Handle -->
+    <rect x="-10" y="0" width="20" height="200" rx="6" fill="#b45309" stroke="#451a03" stroke-width="2" />
+    <!-- Steel Double-Pointed Pick Head -->
+    <path d="M -80,-15 Q 0,-35 80,-15 Q 40,-5 0,-8 Q -40,-5 -80,-15 Z" fill="#94a3b8" stroke="#ffffff" stroke-width="2" />
+    <!-- Sparkles on impact -->
+    <polygon points="80,-15 95,-25 90,-10 105,-15 90,-5" fill="#fef08a" />
+  </g>
+
+  <!-- Title Badge Top Header -->
+  <g transform="translate(136, 32)" filter="url(#minerGlow)">
+    <rect width="240" height="50" rx="16" fill="#1c1917" stroke="#eab308" stroke-width="3" />
+    <text x="120" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="950" fill="#facc15" text-anchor="middle" letter-spacing="2">GOLD MINER</text>
+  </g>
+
+  <!-- Multiplier Pill -->
+  <g transform="translate(176, 440)">
+    <rect width="160" height="32" rx="16" fill="#1c1917" stroke="#facc15" stroke-width="1.5" />
+    <text x="80" y="21" font-family="system-ui, monospace" font-size="13" font-weight="900" fill="#facc15" text-anchor="middle">💰 UP TO 1,000X</text>
+  </g>
+</svg>

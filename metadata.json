@@ -1,0 +1,6 @@
+{
+  "name": "BaaziWin",
+  "description": "Premier real-money gaming hub with instant UPI deposits, fast withdrawals, live multiplayer crash, mines, tower, dice, and real-time admin management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

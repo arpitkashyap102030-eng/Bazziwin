@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="dragonTowerBg" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#4c1d95" />
+      <stop offset="45%" stop-color="#2e1065" />
+      <stop offset="85%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+
+    <!-- Golden Dragon Egg Gradient -->
+    <linearGradient id="dragonEggGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="30%" stop-color="#fef08a" />
+      <stop offset="70%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#854d0e" />
+    </linearGradient>
+
+    <linearGradient id="fireGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="50%" stop-color="#f97316" />
+      <stop offset="100%" stop-color="#fef08a" />
+    </linearGradient>
+
+    <filter id="dtGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base Canvas -->
+  <rect width="512" height="512" rx="32" fill="url(#dragonTowerBg)" />
+  <rect width="504" height="504" x="4" y="4" rx="28" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.4" />
+
+  <!-- Castle Stone Wall Background Structure -->
+  <g fill="#1e1b4b" stroke="#3730a3" stroke-width="2" opacity="0.8">
+    <rect x="86" y="100" width="340" height="370" rx="12" />
+    <!-- Castle Crenellations / Battlements at top -->
+    <rect x="76" y="80" width="40" height="30" rx="4" />
+    <rect x="146" y="80" width="40" height="30" rx="4" />
+    <rect x="216" y="80" width="40" height="30" rx="4" />
+    <rect x="286" y="80" width="40" height="30" rx="4" />
+    <rect x="356" y="80" width="40" height="30" rx="4" />
+    <rect x="396" y="80" width="40" height="30" rx="4" />
+  </g>
+
+  <!-- Ascending Tower Floor Rows (Like Stake Dragon Tower) -->
+  <g transform="translate(106, 120)">
+    {/* Floor 4 (Top - 100x) */}
+    <rect x="0" y="0" width="300" height="54" rx="8" fill="#312e81" stroke="#f59e0b" stroke-width="2" />
+    <g transform="translate(15, 8)">
+      <ellipse cx="20" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" filter="url(#dtGlow)" />
+      <ellipse cx="90" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" filter="url(#dtGlow)" />
+      <ellipse cx="160" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" filter="url(#dtGlow)" />
+      <ellipse cx="230" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" filter="url(#dtGlow)" />
+    </g>
+    <text x="270" y="32" font-family="system-ui, monospace" font-size="12" font-weight="900" fill="#facc15" text-anchor="end">100x</text>
+
+    {/* Floor 3 (15x) */}
+    <rect x="0" y="66" width="300" height="54" rx="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5" />
+    <g transform="translate(15, 74)">
+      <ellipse cx="20" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" />
+      <ellipse cx="90" cy="19" rx="14" ry="18" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+      <ellipse cx="160" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" />
+      <ellipse cx="230" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" />
+    </g>
+    <text x="270" y="98" font-family="system-ui, monospace" font-size="12" font-weight="900" fill="#a5b4fc" text-anchor="end">15x</text>
+
+    {/* Floor 2 (4.5x) */}
+    <rect x="0" y="132" width="300" height="54" rx="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5" />
+    <g transform="translate(15, 140)">
+      <ellipse cx="20" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" />
+      <ellipse cx="90" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" />
+      <ellipse cx="160" cy="19" rx="14" ry="18" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+      <ellipse cx="230" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" />
+    </g>
+    <text x="270" y="164" font-family="system-ui, monospace" font-size="12" font-weight="900" fill="#a5b4fc" text-anchor="end">4.5x</text>
+
+    {/* Floor 1 (Base - 1.4x) */}
+    <rect x="0" y="198" width="300" height="54" rx="8" fill="#312e81" stroke="#22c55e" stroke-width="2" />
+    <g transform="translate(15, 206)">
+      <ellipse cx="20" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" />
+      <ellipse cx="90" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" />
+      <ellipse cx="160" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" />
+      <ellipse cx="230" cy="19" rx="14" ry="18" fill="url(#dragonEggGrad)" />
+    </g>
+    <text x="270" y="230" font-family="system-ui, monospace" font-size="12" font-weight="900" fill="#4ade80" text-anchor="end">1.4x</text>
+  </g>
+
+  <!-- Fiery Dragon Head breathing flames in foreground right -->
+  <g transform="translate(370, 330)" filter="url(#dtGlow)">
+    <!-- Fiery Breath Stream -->
+    <path d="M -30,-10 Q -90,-40 -160,-20 Q -90,-10 -30,0 Z" fill="url(#fireGrad)" opacity="0.9" />
+    
+    <!-- Dragon Head Shape -->
+    <path d="M 0,-40 C 30,-50 60,-20 70,0 C 75,20 40,50 10,40 C -10,35 -20,10 -30,0 Z" fill="#991b1b" stroke="#f59e0b" stroke-width="2.5" />
+    <!-- Dragon Horns -->
+    <path d="M 30,-45 C 50,-80 80,-75 75,-50" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" />
+    <path d="M 10,-40 C 25,-70 50,-65 45,-45" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" />
+    <!-- Glowing Eye -->
+    <circle cx="25" cy="-15" r="7" fill="#facc15" />
+    <circle cx="26" cy="-15" r="2.5" fill="#000000" />
+    <!-- Sharp Teeth -->
+    <polygon points="-25,0 -15,10 -5,0 5,10 15,0" fill="#ffffff" />
+  </g>
+
+  <!-- Title Badge Top Header -->
+  <g transform="translate(106, 25)" filter="url(#dtGlow)">
+    <rect width="300" height="50" rx="16" fill="#0f0714" stroke="#f59e0b" stroke-width="3" />
+    <text x="150" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="950" fill="#facc15" text-anchor="middle" letter-spacing="2">DRAGON TOWER</text>
+  </g>
+</svg>

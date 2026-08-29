@@ -1,0 +1,16 @@
+{
+  "name": "BaaziWin",
+  "short_name": "BaaziWin",
+  "description": "Play crash and skill games with virtual coins on BaaziWin.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#131313",
+  "theme_color": "#131313",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

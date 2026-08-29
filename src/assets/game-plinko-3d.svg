@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+    <radialGradient id="ballGlow" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="60%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </radialGradient>
+    <linearGradient id="pegGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="50%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#ca8a04" />
+    </linearGradient>
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="512" height="512" fill="url(#bgGrad)" />
+
+  <!-- Pegboard Grid -->
+  <!-- Top Pegs -->
+  <circle cx="256" cy="110" r="10" fill="url(#pegGrad)" />
+  <circle cx="216" cy="160" r="10" fill="url(#pegGrad)" />
+  <circle cx="296" cy="160" r="10" fill="url(#pegGrad)" />
+  <circle cx="176" cy="210" r="10" fill="url(#pegGrad)" />
+  <circle cx="256" cy="210" r="10" fill="url(#pegGrad)" />
+  <circle cx="336" cy="210" r="10" fill="url(#pegGrad)" />
+  <circle cx="136" cy="260" r="10" fill="url(#pegGrad)" />
+  <circle cx="216" cy="260" r="10" fill="url(#pegGrad)" />
+  <circle cx="296" cy="260" r="10" fill="url(#pegGrad)" />
+  <circle cx="376" cy="260" r="10" fill="url(#pegGrad)" />
+  <circle cx="96" cy="310" r="10" fill="url(#pegGrad)" />
+  <circle cx="176" cy="310" r="10" fill="url(#pegGrad)" />
+  <circle cx="256" cy="310" r="10" fill="url(#pegGrad)" />
+  <circle cx="336" cy="310" r="10" fill="url(#pegGrad)" />
+  <circle cx="416" cy="310" r="10" fill="url(#pegGrad)" />
+
+  <!-- Bouncing Glowing Balls with Light Trails -->
+  <circle cx="256" cy="80" r="16" fill="url(#ballGlow)" filter="url(#neonGlow)" />
+  <circle cx="220" cy="240" r="22" fill="url(#ballGlow)" filter="url(#neonGlow)" />
+  <circle cx="310" cy="285" r="18" fill="url(#ballGlow)" filter="url(#neonGlow)" />
+
+  <!-- Multiplier Bins Floor -->
+  <g transform="translate(46, 400)">
+    <rect x="0" y="0" width="48" height="40" rx="8" fill="#ef4444" />
+    <text x="24" y="25" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="900" text-anchor="middle">100x</text>
+
+    <rect x="54" y="0" width="48" height="40" rx="8" fill="#f97316" />
+    <text x="78" y="25" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="900" text-anchor="middle">30x</text>
+
+    <rect x="108" y="0" width="48" height="40" rx="8" fill="#eab308" />
+    <text x="132" y="25" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="900" text-anchor="middle">10x</text>
+
+    <rect x="162" y="0" width="48" height="40" rx="8" fill="#22c55e" />
+    <text x="186" y="25" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="900" text-anchor="middle">2x</text>
+
+    <rect x="216" y="0" width="48" height="40" rx="8" fill="#22c55e" />
+    <text x="240" y="25" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="900" text-anchor="middle">2x</text>
+
+    <rect x="270" y="0" width="48" height="40" rx="8" fill="#eab308" />
+    <text x="294" y="25" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="900" text-anchor="middle">10x</text>
+
+    <rect x="324" y="0" width="48" height="40" rx="8" fill="#f97316" />
+    <text x="348" y="25" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="900" text-anchor="middle">30x</text>
+
+    <rect x="378" y="0" width="48" height="40" rx="8" fill="#ef4444" />
+    <text x="402" y="25" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="900" text-anchor="middle">100x</text>
+  </g>
+</svg>

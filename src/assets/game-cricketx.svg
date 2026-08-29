@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="cricketSky" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#14532d" />
+      <stop offset="40%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+    <radialGradient id="ballGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fca5a5" />
+      <stop offset="40%" stop-color="#ef4444" />
+      <stop offset="85%" stop-color="#991b1b" />
+      <stop offset="100%" stop-color="#450a0a" />
+    </radialGradient>
+    <linearGradient id="fireTrail" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0" />
+      <stop offset="40%" stop-color="#f97316" stop-opacity="0.7" />
+      <stop offset="80%" stop-color="#facc15" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+    <filter id="cricketGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="32" fill="url(#cricketSky)" />
+  <rect width="504" height="504" x="4" y="4" rx="28" fill="none" stroke="#22c55e" stroke-width="2" opacity="0.4" />
+
+  <!-- Cricket Pitch / Stadium Floodlights Aura in Background -->
+  <g opacity="0.3">
+    <ellipse cx="256" cy="460" rx="240" ry="80" fill="#15803d" />
+    <circle cx="80" cy="80" r="40" fill="#ffffff" filter="url(#cricketGlow)" opacity="0.2" />
+    <circle cx="432" cy="80" r="40" fill="#ffffff" filter="url(#cricketGlow)" opacity="0.2" />
+  </g>
+
+  <!-- Massive Sixer Ball Hit Trail -->
+  <path d="M 60,450 Q 220,400 320,270 T 390,130" fill="none" stroke="url(#fireTrail)" stroke-width="16" stroke-linecap="round" filter="url(#cricketGlow)" />
+
+  <!-- Cricket Bat in Bottom Left -->
+  <g transform="translate(100, 420) rotate(-45)">
+    <!-- Handle -->
+    <rect x="-8" y="-120" width="16" height="60" rx="4" fill="#f8fafc" stroke="#64748b" stroke-width="2" />
+    <line x1="-8" y1="-100" x2="8" y2="-100" stroke="#0f172a" stroke-width="2" />
+    <line x1="-8" y1="-80" x2="8" y2="-80" stroke="#0f172a" stroke-width="2" />
+    <!-- Blade -->
+    <path d="M -16,-60 L 16,-60 L 14,80 L -14,80 Z" fill="#d97706" stroke="#92400e" stroke-width="2.5" />
+    <rect x="-10" y="-50" width="20" height="110" rx="3" fill="#f59e0b" />
+    <text x="0" y="20" font-family="system-ui, sans-serif" font-size="10" font-weight="900" fill="#78350f" text-anchor="middle" transform="rotate(90 0 20)">BAAZI</text>
+  </g>
+
+  <!-- Fiery Cricket Leather Ball in Flight -->
+  <g transform="translate(390, 130)" filter="url(#cricketGlow)">
+    <circle cx="0" cy="0" r="42" fill="url(#ballGrad)" stroke="#fca5a5" stroke-width="2" />
+    <!-- White Seam Stitches -->
+    <path d="M -26,-28 C 0,-8 0,8 26,28" fill="none" stroke="#ffffff" stroke-width="3" stroke-dasharray="4,3" />
+    <!-- Ball Shine Sparkle -->
+    <polygon points="12,-20 14,-15 19,-13 14,-11 12,-6 10,-11 5,-13 10,-15" fill="#ffffff" />
+  </g>
+
+  <!-- Title Badge -->
+  <g transform="translate(60, 50)">
+    <rect width="190" height="52" rx="14" fill="#0f172a" stroke="#22c55e" stroke-width="3" filter="url(#cricketGlow)" />
+    <text x="95" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="950" fill="#4ade80" text-anchor="middle">CRICKET X</text>
+  </g>
+
+  <!-- 6 RUNS Multiplier Pill -->
+  <g transform="translate(60, 118)">
+    <rect width="130" height="34" rx="8" fill="#1e1b4b" stroke="#facc15" stroke-width="1.5" />
+    <text x="65" y="23" font-family="system-ui, monospace" font-size="16" font-weight="900" fill="#facc15" text-anchor="middle">💥 6.00x HIT</text>
+  </g>
+</svg>

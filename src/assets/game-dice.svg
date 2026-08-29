@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="diceBg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="60%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+
+    <!-- 3D Red Casino Dice Gradients -->
+    <linearGradient id="diceRedTop" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#fca5a5" />
+    </linearGradient>
+
+    <linearGradient id="diceRedLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dc2626" />
+      <stop offset="100%" stop-color="#7f1d1d" />
+    </linearGradient>
+
+    <linearGradient id="diceRedRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b91c1c" />
+      <stop offset="100%" stop-color="#450a0a" />
+    </linearGradient>
+
+    <filter id="diceGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base Canvas -->
+  <rect width="512" height="512" rx="32" fill="url(#diceBg)" />
+  <rect width="504" height="504" x="4" y="4" rx="28" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.4" />
+
+  <!-- 0-100 Classic Slider Bar in Center (Stake Dice Style) -->
+  <g transform="translate(66, 360)">
+    <!-- Base Slider Track -->
+    <rect width="380" height="24" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2" />
+    <!-- Green Win Zone (50 to 100) -->
+    <rect x="190" y="0" width="190" height="24" rx="12" fill="#10b981" filter="url(#diceGlow)" />
+    <!-- Red Loss Zone (0 to 50) -->
+    <rect x="0" y="0" width="190" height="24" rx="12" fill="#ef4444" />
+    <!-- Slider Target Handle -->
+    <circle cx="190" cy="12" r="18" fill="#ffffff" stroke="#0f172a" stroke-width="4" filter="url(#diceGlow)" />
+    <text x="190" y="17" font-family="system-ui, monospace" font-size="12" font-weight="900" fill="#0f172a" text-anchor="middle">50</text>
+  </g>
+
+  <!-- Pair of Rolling 3D Red Casino Dice in Mid-Air -->
+  <g transform="translate(220, 200) rotate(-15)" filter="url(#diceGlow)">
+    <!-- Motion trails -->
+    <line x1="-70" y1="40" x2="-20" y2="20" stroke="#f87171" stroke-width="3" opacity="0.6" />
+    
+    <!-- Top Face -->
+    <polygon points="0,-40 55,-70 110,-40 55,-10" fill="url(#diceRedTop)" stroke="#fee2e2" stroke-width="1.5" />
+    <!-- Top Face Pips (Showing 5) -->
+    <circle cx="55" cy="-25" r="4.5" fill="#ffffff" />
+    <circle cx="28" cy="-35" r="4.5" fill="#ffffff" />
+    <circle cx="82" cy="-35" r="4.5" fill="#ffffff" />
+    <circle cx="28" cy="-18" r="4.5" fill="#ffffff" />
+    <circle cx="82" cy="-18" r="4.5" fill="#ffffff" />
+
+    <!-- Left Face (Showing 3) -->
+    <polygon points="0,-40 55,-10 55,60 0,30" fill="url(#diceRedLeft)" stroke="#fee2e2" stroke-width="1.5" />
+    <circle cx="28" cy="10" r="5" fill="#ffffff" />
+    <circle cx="15" cy="-15" r="5" fill="#ffffff" />
+    <circle cx="40" cy="35" r="5" fill="#ffffff" />
+
+    <!-- Right Face (Showing 6) -->
+    <polygon points="55,-10 110,-40 110,30 55,60" fill="url(#diceRedRight)" stroke="#fee2e2" stroke-width="1.5" />
+    <circle cx="75" cy="-8" r="5" fill="#ffffff" />
+    <circle cx="95" cy="-18" r="5" fill="#ffffff" />
+    <circle cx="75" cy="15" r="5" fill="#ffffff" />
+    <circle cx="95" cy="5" r="5" fill="#ffffff" />
+    <circle cx="75" cy="38" r="5" fill="#ffffff" />
+    <circle cx="95" cy="28" r="5" fill="#ffffff" />
+  </g>
+
+  <!-- Second Background Dice -->
+  <g transform="translate(130, 260) rotate(25)" filter="url(#diceGlow)">
+    <polygon points="0,-25 35,-45 70,-25 35,-5" fill="url(#diceRedTop)" />
+    <polygon points="0,-25 35,-5 35,40 0,20" fill="url(#diceRedLeft)" />
+    <polygon points="35,-5 70,-25 70,20 35,40" fill="url(#diceRedRight)" />
+    <circle cx="35" cy="-15" r="4" fill="#ffffff" />
+    <circle cx="18" cy="10" r="4" fill="#ffffff" />
+    <circle cx="52" cy="10" r="4" fill="#ffffff" />
+  </g>
+
+  <!-- Title Badge Top Header -->
+  <g transform="translate(166, 38)" filter="url(#diceGlow)">
+    <rect width="180" height="48" rx="14" fill="#0f0714" stroke="#ef4444" stroke-width="3" />
+    <text x="90" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="950" fill="#f87171" text-anchor="middle" letter-spacing="3">DICE</text>
+  </g>
+
+  <!-- Win Chance / Multiplier Pill -->
+  <g transform="translate(166, 420)">
+    <rect width="180" height="32" rx="16" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+    <text x="90" y="21" font-family="system-ui, monospace" font-size="13" font-weight="900" fill="#a7f3d0" text-anchor="middle">🎯 98.00% WIN CHANCE</text>
+  </g>
+</svg>

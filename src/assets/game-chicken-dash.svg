@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="dashBg" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#15803d" />
+      <stop offset="50%" stop-color="#064e3b" />
+      <stop offset="100%" stop-color="#022c22" />
+    </radialGradient>
+    <filter id="dashGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="32" fill="url(#dashBg)" />
+  <rect width="504" height="504" x="4" y="4" rx="28" fill="none" stroke="#4ade80" stroke-width="2" opacity="0.3" />
+
+  <!-- Stadium Sprint Tracks -->
+  <g stroke="#facc15" stroke-width="3" stroke-dasharray="14,14" opacity="0.6">
+    <line x1="120" y1="20" x2="120" y2="490" />
+    <line x1="256" y1="20" x2="256" y2="490" stroke-width="4" stroke="#ffffff" />
+    <line x1="392" y1="20" x2="392" y2="490" />
+  </g>
+
+  <!-- Golden Sprinting Chicken with Helmet -->
+  <g transform="translate(256, 260)" filter="url(#dashGlow)">
+    <!-- Speed Lines behind -->
+    <line x1="-120" y1="0" x2="-60" y2="0" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+    <line x1="-140" y1="25" x2="-80" y2="25" stroke="#facc15" stroke-width="5" stroke-linecap="round" opacity="0.9" />
+    <line x1="-110" y1="-25" x2="-50" y2="-25" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.7" />
+
+    <!-- Legs Running -->
+    <path d="M -20,40 L -45,70 M 20,40 L 45,70" stroke="#f59e0b" stroke-width="7" stroke-linecap="round" />
+    <polygon points="-55,70 -35,70 -45,60" fill="#f59e0b" />
+    <polygon points="35,70 55,70 45,60" fill="#f59e0b" />
+
+    <!-- Body -->
+    <ellipse cx="0" cy="15" rx="65" ry="48" fill="#facc15" stroke="#d97706" stroke-width="3" />
+    <!-- White Racing Number 7 on body -->
+    <circle cx="-5" cy="15" r="22" fill="#1e1b4b" stroke="#ffffff" stroke-width="2" />
+    <text x="-5" y="23" font-family="system-ui, sans-serif" font-size="22" font-weight="950" fill="#ffffff" text-anchor="middle">7</text>
+
+    <!-- Head & Blue Helmet -->
+    <ellipse cx="25" cy="-25" rx="32" ry="34" fill="#fef08a" stroke="#f59e0b" stroke-width="2" />
+    <!-- Helmet -->
+    <path d="M 0,-30 C 5,-60 45,-60 55,-25 Z" fill="#0284c7" stroke="#ffffff" stroke-width="2" />
+    <!-- Visor -->
+    <ellipse cx="38" cy="-28" rx="14" ry="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+
+    <!-- Beak -->
+    <polygon points="50,-20 78,-14 50,-6" fill="#f97316" stroke="#c2410c" stroke-width="1.5" />
+
+    <!-- Coin collected floating in air -->
+    <circle cx="80" cy="-55" r="18" fill="#eab308" stroke="#ffffff" stroke-width="2" />
+    <text x="80" y="-48" font-family="system-ui, sans-serif" font-size="16" font-weight="950" fill="#78350f" text-anchor="middle">$</text>
+  </g>
+
+  <!-- Title Badge -->
+  <g transform="translate(116, 44)">
+    <rect width="280" height="48" rx="14" fill="#0f172a" stroke="#4ade80" stroke-width="2.5" />
+    <text x="140" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="950" fill="#4ade80" text-anchor="middle">CHICKEN DASH</text>
+  </g>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="blastSky" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#7c2d12" />
+      <stop offset="35%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+    <linearGradient id="rocketSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#cbd5e1" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+    <linearGradient id="blastFire" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0" />
+      <stop offset="50%" stop-color="#f97316" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#facc15" stop-opacity="1" />
+    </linearGradient>
+    <filter id="blastGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="32" fill="url(#blastSky)" />
+  <rect width="504" height="504" x="4" y="4" rx="28" fill="none" stroke="#f97316" stroke-width="2" opacity="0.4" />
+
+  <!-- Stars & Nebula -->
+  <g fill="#ffffff" opacity="0.6">
+    <circle cx="90" cy="140" r="2" />
+    <circle cx="430" cy="100" r="2.5" />
+    <circle cx="100" cy="400" r="2" />
+    <circle cx="420" cy="380" r="3" />
+  </g>
+
+  <!-- Asteroid Rocks floating -->
+  <polygon points="70,220 95,200 110,230 90,250 65,240" fill="#334155" stroke="#64748b" stroke-width="2" />
+  <polygon points="400,280 435,260 450,290 425,320 395,300" fill="#334155" stroke="#64748b" stroke-width="2" />
+
+  <!-- Blazing Rocket Launch -->
+  <path d="M 60,460 Q 220,420 310,300 T 385,160" fill="none" stroke="url(#blastFire)" stroke-width="16" stroke-linecap="round" filter="url(#blastGlow)" />
+
+  <!-- Heavy Orbital Rocket -->
+  <g transform="translate(385, 160) rotate(-40)" filter="url(#blastGlow)">
+    <!-- Giant Fire Tail -->
+    <ellipse cx="-80" cy="0" rx="45" ry="16" fill="#f97316" opacity="0.8" />
+    <ellipse cx="-55" cy="0" rx="30" ry="10" fill="#facc15" />
+    <ellipse cx="-35" cy="0" rx="15" ry="6" fill="#ffffff" />
+
+    <!-- Rocket Body -->
+    <ellipse cx="0" cy="0" rx="75" ry="26" fill="url(#rocketSteel)" stroke="#ffffff" stroke-width="2.5" />
+    
+    <!-- Red Nose Cone -->
+    <path d="M 40,-24 Q 85,0 40,24 Z" fill="#ef4444" stroke="#ffffff" stroke-width="2" />
+
+    <!-- Fins -->
+    <polygon points="-30,-26 -70,-60 -45,-26" fill="#ef4444" stroke="#ffffff" stroke-width="1.5" />
+    <polygon points="-30,26 -70,60 -45,26" fill="#ef4444" stroke="#ffffff" stroke-width="1.5" />
+
+    <!-- Blue Porthole Glass -->
+    <circle cx="10" cy="0" r="14" fill="#0284c7" stroke="#ffffff" stroke-width="2.5" />
+    <circle cx="13" cy="-4" r="4" fill="#ffffff" />
+  </g>
+
+  <!-- Title Badge -->
+  <g transform="translate(60, 50)">
+    <rect width="210" height="52" rx="14" fill="#0f172a" stroke="#f97316" stroke-width="3" filter="url(#blastGlow)" />
+    <text x="105" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="950" fill="#fb923c" text-anchor="middle">SPACE BLAST</text>
+  </g>
+
+  <!-- Multiplier Badge -->
+  <g transform="translate(60, 120)">
+    <rect width="120" height="34" rx="8" fill="#1e1b4b" stroke="#facc15" stroke-width="1.5" />
+    <text x="60" y="23" font-family="system-ui, monospace" font-size="16" font-weight="900" fill="#facc15" text-anchor="middle">🚀 24.50x</text>
+  </g>
+</svg>

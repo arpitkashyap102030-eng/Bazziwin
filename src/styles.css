@@ -1,0 +1,213 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * BaaziWin design system — electric dark gaming.
+ * Acid-yellow primary, neon-green accent, near-black surfaces.
+ * All colors are oklch semantic tokens. Never hardcode colors in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
+  --radius-2xl: calc(var(--radius) + 14px);
+  --radius-3xl: calc(var(--radius) + 20px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Arcade surfaces */
+  --color-surface-lowest: var(--surface-lowest);
+  --color-surface-low: var(--surface-low);
+  --color-surface: var(--surface);
+  --color-surface-high: var(--surface-high);
+  --color-surface-highest: var(--surface-highest);
+  --color-hairline: var(--hairline);
+
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --shadow-glow: 0 0 24px -4px var(--glow-primary);
+  --shadow-glow-accent: 0 0 24px -4px var(--glow-accent);
+}
+
+:root,
+.dark {
+  --radius: 0.5rem;
+
+  --background: oklch(0.17 0 0);
+  --foreground: oklch(0.92 0.002 90);
+
+  --surface-lowest: oklch(0.13 0 0);
+  --surface-low: oklch(0.2 0 0);
+  --surface: oklch(0.23 0 0);
+  --surface-high: oklch(0.27 0 0);
+  --surface-highest: oklch(0.33 0 0);
+  --hairline: oklch(0.42 0.03 100);
+
+  --card: oklch(0.23 0 0);
+  --card-foreground: oklch(0.92 0.002 90);
+  --popover: oklch(0.2 0 0);
+  --popover-foreground: oklch(0.92 0.002 90);
+
+  /* Acid yellow */
+  --primary: oklch(0.9 0.19 105);
+  --primary-foreground: oklch(0.24 0.07 105);
+
+  /* Neon green */
+  --accent: oklch(0.82 0.24 145);
+  --accent-foreground: oklch(0.22 0.09 145);
+
+  --secondary: oklch(0.27 0 0);
+  --secondary-foreground: oklch(0.92 0.002 90);
+  --muted: oklch(0.27 0 0);
+  --muted-foreground: oklch(0.72 0.02 100);
+
+  --destructive: oklch(0.62 0.23 25);
+  --destructive-foreground: oklch(0.97 0.01 25);
+
+  --border: oklch(0.42 0.03 100 / 45%);
+  --input: oklch(0.35 0.01 100);
+  --ring: oklch(0.9 0.19 105);
+
+  --glow-primary: oklch(0.9 0.19 105 / 55%);
+  --glow-accent: oklch(0.82 0.24 145 / 55%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    overflow-y: visible;
+    height: auto;
+    min-height: 100dvh;
+    max-width: 100vw;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility text-glow {
+  text-shadow: 0 0 12px var(--glow-primary);
+}
+
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@utility safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@keyframes tick-up {
+  0% {
+    transform: translateY(40%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--glow-primary);
+  }
+  50% {
+    box-shadow: 0 0 22px 2px var(--glow-primary);
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shake-x {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@utility animate-tick {
+  animation: tick-up 0.25s ease-out;
+}
+@utility animate-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+@utility animate-pop {
+  animation: pop-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@utility animate-shake {
+  animation: shake-x 0.3s ease-in-out;
+}

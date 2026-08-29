@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="vortexDeepBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#3b0764" />
+      <stop offset="35%" stop-color="#1e1b4b" />
+      <stop offset="70%" stop-color="#090514" />
+      <stop offset="100%" stop-color="#020008" />
+    </radialGradient>
+
+    <!-- Core Spiral Gradients -->
+    <radialGradient id="vortexCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="25%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#a855f7" />
+      <stop offset="85%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+
+    <linearGradient id="spiralCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+
+    <linearGradient id="spiralPink" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="50%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <filter id="vortexGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Canvas Base -->
+  <rect width="512" height="512" rx="32" fill="url(#vortexDeepBg)" />
+  <rect width="504" height="504" x="4" y="4" rx="28" fill="none" stroke="#a855f7" stroke-width="2" opacity="0.4" />
+
+  <!-- Stars & Space Debris -->
+  <g fill="#ffffff" opacity="0.7">
+    <circle cx="80" cy="90" r="1.5" />
+    <circle cx="430" cy="110" r="2" />
+    <circle cx="100" cy="420" r="2.5" />
+    <circle cx="440" cy="400" r="1.5" />
+    <circle cx="230" cy="60" r="2" />
+    <circle cx="390" cy="200" r="1.5" />
+  </g>
+
+  <!-- Gravitational Space Grid Waves -->
+  <g stroke="#6366f1" stroke-width="1.5" opacity="0.25" fill="none">
+    <ellipse cx="256" cy="256" rx="220" ry="140" transform="rotate(-25 256 256)" />
+    <ellipse cx="256" cy="256" rx="180" ry="105" transform="rotate(-25 256 256)" />
+    <ellipse cx="256" cy="256" rx="130" ry="75" transform="rotate(-25 256 256)" />
+    <ellipse cx="256" cy="256" rx="80" ry="45" transform="rotate(-25 256 256)" />
+  </g>
+
+  <!-- Swirling Vortex Spiral Arms -->
+  <g filter="url(#vortexGlow)">
+    <!-- Outer Spiral 1 -->
+    <path d="M 256,256 C 360,200 440,280 430,380 C 420,460 300,480 200,450 C 90,410 50,280 100,160 C 150,50 320,30 410,100" fill="none" stroke="url(#spiralCyan)" stroke-width="12" stroke-linecap="round" opacity="0.8" />
+    
+    <!-- Outer Spiral 2 -->
+    <path d="M 256,256 C 160,300 80,220 90,130 C 100,40 220,20 320,60 C 420,100 460,230 400,340 C 350,440 200,470 120,400" fill="none" stroke="url(#spiralPink)" stroke-width="10" stroke-linecap="round" opacity="0.75" />
+
+    <!-- Tight Core Vortex Spiral -->
+    <path d="M 256,256 C 290,230 310,260 300,290 C 290,320 240,320 220,300 C 190,270 210,220 250,210 C 300,200 340,240 330,290" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+  </g>
+
+  <!-- Glowing Central Singularity Core -->
+  <circle cx="256" cy="256" r="55" fill="url(#vortexCore)" filter="url(#vortexGlow)" />
+  <circle cx="256" cy="256" r="22" fill="#ffffff" filter="url(#vortexGlow)" />
+
+  <!-- Escaping Energy Sparks & Crystals -->
+  <g fill="#fef08a" filter="url(#vortexGlow)">
+    <polygon points="360,180 363,188 371,191 363,194 360,202 357,194 349,191 357,188" />
+    <polygon points="150,320 152,326 158,328 152,330 150,336 148,330 142,328 148,326" />
+    <polygon points="200,140 202,146 208,148 202,150 200,156 198,150 192,148 198,146" />
+  </g>
+
+  <!-- Title Badge Top -->
+  <g transform="translate(136, 44)">
+    <rect width="240" height="48" rx="14" fill="#090514" stroke="#c084fc" stroke-width="2.5" filter="url(#vortexGlow)" />
+    <text x="120" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="950" fill="#f0abfc" text-anchor="middle" letter-spacing="2">VORTEX</text>
+  </g>
+
+  <!-- Bottom Rising Multiplier Badge -->
+  <g transform="translate(166, 415)">
+    <rect width="180" height="38" rx="19" fill="#1e1b4b" stroke="#38bdf8" stroke-width="2" />
+    <text x="90" y="25" font-family="system-ui, monospace" font-size="18" font-weight="900" fill="#38bdf8" text-anchor="middle">18.50x PULL</text>
+  </g>
+</svg>

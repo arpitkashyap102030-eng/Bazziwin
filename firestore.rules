@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email in [
+          'ujjawalriwal999@gmail.com',
+          'kanishpratapsingh9@gmail.com',
+          'kanishpratapsingh@gmail.com',
+          'arpitkashyap102030@gmail.com'
+        ] ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Players collection
+    match /players/{userId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && (request.auth.uid == userId || isAdmin() || resource == null);
+      allow delete: if isAdmin();
+    }
+
+    // Game rounds
+    match /game_rounds/{roundId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.resource.data.player_id == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // Public wins feed
+    match /public_wins/{winId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update, delete: if false;
+    }
+
+    // Quest claims
+    match /quest_claims/{claimId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.resource.data.player_id == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // Wallet transactions
+    match /wallet_transactions/{txId} {
+      allow read: if isAuthenticated() && (isAdmin() || resource == null || resource.data.player_id == request.auth.uid);
+      allow create: if isAuthenticated() && (isAdmin() || request.resource.data.player_id == request.auth.uid);
+      allow update, delete: if false;
+    }
+
+    // Deposit requests
+    match /deposit_requests/{reqId} {
+      allow read: if isAuthenticated() && (isAdmin() || resource == null || resource.data.player_id == request.auth.uid);
+      allow create: if isAuthenticated() && (isAdmin() || request.resource.data.player_id == request.auth.uid);
+      allow update: if isAuthenticated() && (isAdmin() || request.resource.data.player_id == request.auth.uid);
+      allow delete: if isAdmin();
+    }
+
+    // Unclaimed bank credits (managed by server webhook)
+    match /unclaimed_bank_credits/{creditId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Processed UTRs (prevent double credit)
+    match /processed_utrs/{utrId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Live Multiplayer game synchronization (Aviator & Color Trading)
+    match /game_state/{stateId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // App config
+    match /app_config/{configId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+  }
+}

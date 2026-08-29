@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="minesBg" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="60%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+
+    <!-- Emerald Diamond Shading -->
+    <linearGradient id="diamondGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a7f3d0" />
+      <stop offset="40%" stop-color="#34d399" />
+      <stop offset="85%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+
+    <!-- Metallic Spiked Mine Gradient -->
+    <radialGradient id="spikedMineGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#64748b" />
+      <stop offset="40%" stop-color="#334155" />
+      <stop offset="85%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+
+    <filter id="minesGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base Canvas -->
+  <rect width="512" height="512" rx="32" fill="url(#minesBg)" />
+  <rect width="504" height="504" x="4" y="4" rx="28" fill="none" stroke="#10b981" stroke-width="2" opacity="0.35" />
+
+  <!-- 5x5 Mines Grid Graphic in Center -->
+  <g transform="translate(96, 120)">
+    <!-- 4x4 Sample tiles background -->
+    <g fill="#1e293b" stroke="#334155" stroke-width="2">
+      {/* Row 1 */}
+      <rect x="0" y="0" width="68" height="68" rx="14" />
+      <rect x="84" y="0" width="68" height="68" rx="14" fill="#064e3b" stroke="#10b981" stroke-width="2.5" />
+      <rect x="168" y="0" width="68" height="68" rx="14" />
+      <rect x="252" y="0" width="68" height="68" rx="14" />
+
+      {/* Row 2 */}
+      <rect x="0" y="84" width="68" height="68" rx="14" />
+      <rect x="84" y="84" width="68" height="68" rx="14" />
+      <rect x="168" y="84" width="68" height="68" rx="14" fill="#450a0a" stroke="#ef4444" stroke-width="2.5" />
+      <rect x="252" y="84" width="68" height="68" rx="14" fill="#064e3b" stroke="#10b981" stroke-width="2.5" />
+
+      {/* Row 3 */}
+      <rect x="0" y="168" width="68" height="68" rx="14" fill="#064e3b" stroke="#10b981" stroke-width="2.5" />
+      <rect x="84" y="168" width="68" height="68" rx="14" />
+      <rect x="168" y="168" width="68" height="68" rx="14" />
+      <rect x="252" y="168" width="68" height="68" rx="14" />
+
+      {/* Row 4 */}
+      <rect x="0" y="252" width="68" height="68" rx="14" />
+      <rect x="84" y="252" width="68" height="68" rx="14" fill="#064e3b" stroke="#10b981" stroke-width="2.5" />
+      <rect x="168" y="252" width="68" height="68" rx="14" />
+      <rect x="252" y="252" width="68" height="68" rx="14" />
+    </g>
+
+    <!-- Glowing Gems in the opened green tiles -->
+    <g filter="url(#minesGlow)">
+      <!-- Gem 1 at (84, 0) -->
+      <polygon points="118,16 138,34 118,52 98,34" fill="url(#diamondGrad)" stroke="#ffffff" stroke-width="1.5" />
+      <polygon points="118,16 128,34 118,52 108,34" fill="#a7f3d0" opacity="0.6" />
+
+      <!-- Gem 2 at (252, 84) -->
+      <polygon points="286,100 306,118 286,136 266,118" fill="url(#diamondGrad)" stroke="#ffffff" stroke-width="1.5" />
+      <!-- Gem 3 at (0, 168) -->
+      <polygon points="34,184 54,202 34,220 14,202" fill="url(#diamondGrad)" stroke="#ffffff" stroke-width="1.5" />
+      <!-- Gem 4 at (84, 252) -->
+      <polygon points="118,268 138,286 118,304 98,286" fill="url(#diamondGrad)" stroke="#ffffff" stroke-width="1.5" />
+    </g>
+
+    <!-- Exploded Spiked Naval Mine at (168, 84) -->
+    <g transform="translate(202, 118)" filter="url(#minesGlow)">
+      <!-- Spikes -->
+      <line x1="-24" y1="0" x2="24" y2="0" stroke="#ef4444" stroke-width="4" />
+      <line x1="0" y1="-24" x2="0" y2="24" stroke="#ef4444" stroke-width="4" />
+      <line x1="-18" y1="-18" x2="18" y2="18" stroke="#ef4444" stroke-width="4" />
+      <line x1="-18" y1="18" x2="18" y2="-18" stroke="#ef4444" stroke-width="4" />
+      <!-- Mine Body -->
+      <circle cx="0" cy="0" r="18" fill="url(#spikedMineGrad)" stroke="#ef4444" stroke-width="2" />
+      <!-- Flashing Red Danger Light -->
+      <circle cx="0" cy="0" r="5" fill="#ef4444" />
+    </g>
+  </g>
+
+  <!-- Big Glowing Master Gem in Foreground Right -->
+  <g transform="translate(410, 390)" filter="url(#minesGlow)">
+    <polygon points="0,-45 40,0 0,45 -40,0" fill="url(#diamondGrad)" stroke="#ffffff" stroke-width="3" />
+    <polygon points="0,-45 18,0 0,45 -18,0" fill="#ffffff" opacity="0.6" />
+    <circle cx="-10" cy="-10" r="6" fill="#ffffff" opacity="0.8" />
+  </g>
+
+  <!-- Title Badge Top Header -->
+  <g transform="translate(156, 42)" filter="url(#minesGlow)">
+    <rect width="200" height="48" rx="14" fill="#090d16" stroke="#10b981" stroke-width="3" />
+    <text x="100" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="950" fill="#34d399" text-anchor="middle" letter-spacing="3">MINES</text>
+  </g>
+
+  <!-- Multiplier Pill (e.g. 24.50x) -->
+  <g transform="translate(186, 455)">
+    <rect width="140" height="30" rx="15" fill="#1e293b" stroke="#facc15" stroke-width="1.5" />
+    <text x="70" y="20" font-family="system-ui, monospace" font-size="14" font-weight="900" fill="#facc15" text-anchor="middle">💎 24.50x CASHOUT</text>
+  </g>
+</svg>

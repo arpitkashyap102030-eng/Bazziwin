@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Dark Radar Canvas Background -->
+    <radialGradient id="avRadarBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#180d1e" />
+      <stop offset="45%" stop-color="#0f0714" />
+      <stop offset="100%" stop-color="#050107" />
+    </radialGradient>
+
+    <!-- Glowing Red Curved Flight Path Gradient -->
+    <linearGradient id="flightCurve" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#dc2626" stop-opacity="0.1" />
+      <stop offset="40%" stop-color="#ef4444" stop-opacity="0.7" />
+      <stop offset="80%" stop-color="#f43f5e" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+
+    <linearGradient id="planeBodyRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fca5a5" />
+      <stop offset="35%" stop-color="#ef4444" />
+      <stop offset="85%" stop-color="#b91c1c" />
+      <stop offset="100%" stop-color="#450a0a" />
+    </linearGradient>
+
+    <filter id="avGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Dark Radar Canvas -->
+  <rect width="512" height="512" rx="32" fill="url(#avRadarBg)" />
+  <rect width="504" height="504" x="4" y="4" rx="28" fill="none" stroke="#e11d48" stroke-width="2" opacity="0.4" />
+
+  <!-- Radar Concentric Circles & Grid Lines -->
+  <g stroke="#371b3e" stroke-width="1.5" fill="none" opacity="0.6">
+    <circle cx="256" cy="256" r="80" />
+    <circle cx="256" cy="256" r="160" />
+    <circle cx="256" cy="256" r="230" />
+    <line x1="256" y1="20" x2="256" y2="492" stroke-dasharray="6,6" />
+    <line x1="20" y1="256" x2="492" y2="256" stroke-dasharray="6,6" />
+    <line x1="40" y1="460" x2="480" y2="460" stroke="#ef4444" stroke-width="2" opacity="0.4" />
+    <line x1="50" y1="50" x2="50" y2="460" stroke="#ef4444" stroke-width="2" opacity="0.4" />
+  </g>
+
+  <!-- Flight Curve Under-Fill Area (Red Shaded Area) -->
+  <path d="M 50,460 Q 220,440 330,300 T 420,150 L 420,460 Z" fill="#ef4444" opacity="0.08" />
+
+  <!-- The Soaring Red Parabolic Trajectory Curve -->
+  <path d="M 50,460 Q 220,440 330,300 T 420,150" fill="none" stroke="url(#flightCurve)" stroke-width="12" stroke-linecap="round" filter="url(#avGlow)" />
+
+  <!-- Spribe Aviator Iconic Red Monoplane in Flight -->
+  <g transform="translate(420, 150) rotate(-32)" filter="url(#avGlow)">
+    <!-- Motion Trails behind wings -->
+    <line x1="-80" y1="0" x2="-40" y2="0" stroke="#f43f5e" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+    
+    <!-- Propeller Spinning Blur -->
+    <ellipse cx="68" cy="0" rx="4" ry="42" fill="#ffffff" opacity="0.75" />
+    <ellipse cx="68" cy="0" rx="8" ry="8" fill="#facc15" />
+
+    <!-- Wings (Swept Monoplane Wing) -->
+    <polygon points="10,-60 30,-60 5,60 -15,60" fill="#991b1b" stroke="#ffffff" stroke-width="1.5" />
+    <line x1="8" y1="-50" x2="-8" y2="50" stroke="#ef4444" stroke-width="6" />
+
+    <!-- Plane Fuselage -->
+    <path d="M 68,0 C 50,-16 -20,-14 -70,-2 C -72,-1 -72,1 -70,2 C -20,14 50,16 68,0 Z" fill="url(#planeBodyRed)" stroke="#ffffff" stroke-width="2" />
+
+    <!-- Tinted Glass Canopy Cockpit -->
+    <ellipse cx="15" cy="-2" rx="22" ry="7" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+    <ellipse cx="20" cy="-4" rx="10" ry="2.5" fill="#ffffff" opacity="0.8" />
+
+    <!-- Tail Fin Rudder -->
+    <polygon points="-55,-2 -76,-30 -62,-30 -42,-2" fill="#dc2626" stroke="#ffffff" stroke-width="1.5" />
+    <polygon points="-55,0 -70,12 -62,12 -45,0" fill="#991b1b" />
+  </g>
+
+  <!-- Big Aviator Multiplier in Center / Flight Arc (e.g. 2.45x) -->
+  <g transform="translate(160, 210)" filter="url(#avGlow)">
+    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="950" fill="#ffffff" letter-spacing="-1">2.45<tspan font-size="44" fill="#ef4444">x</tspan></text>
+  </g>
+
+  <!-- Official AVIATOR Title Badge at Top -->
+  <g transform="translate(146, 42)" filter="url(#avGlow)">
+    <rect width="220" height="48" rx="14" fill="#0f0714" stroke="#ef4444" stroke-width="2.8" />
+    <text x="110" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="950" fill="#ef4444" text-anchor="middle" letter-spacing="3">AVIATOR</text>
+  </g>
+
+  <!-- Flew Away / Provably Fair Guarantee Pill -->
+  <g transform="translate(186, 430)">
+    <rect width="140" height="30" rx="15" fill="#1e1022" stroke="#f43f5e" stroke-width="1.2" />
+    <text x="70" y="20" font-family="system-ui, monospace" font-size="12" font-weight="800" fill="#fda4af" text-anchor="middle">PROVABLY FAIR</text>
+  </g>
+</svg>

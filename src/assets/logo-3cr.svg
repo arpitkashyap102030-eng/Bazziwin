@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 185 44" width="185" height="44">
+  <defs>
+    <!-- Vibrant 24K Gold Gradient for Baazi -->
+    <linearGradient id="bwGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="20%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#f59e0b" />
+      <stop offset="80%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#92400e" />
+    </linearGradient>
+
+    <!-- Electric Neon Emerald / Diamond Cyan Gradient for WIN -->
+    <linearGradient id="bwWin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a7f3d0" />
+      <stop offset="35%" stop-color="#34d399" />
+      <stop offset="70%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Ruby / Fire Glow -->
+    <linearGradient id="bwRuby" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#be123c" />
+    </linearGradient>
+
+    <!-- Shield Plate Gradient -->
+    <linearGradient id="bwPlate" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#030712" />
+    </linearGradient>
+
+    <!-- Subtle Golden Glow Filter -->
+    <filter id="bwGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="0.8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="bwShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.8" />
+    </filter>
+  </defs>
+
+  <!-- Left Icon Emblem (36x36 Bounding Box) -->
+  <g transform="translate(4, 4)" filter="url(#bwShadow)">
+    <!-- Outer Shield with Gold Chamfer -->
+    <polygon points="18,0 34,7 34,25 18,35 2,25 2,7" fill="url(#bwPlate)" stroke="url(#bwGold)" stroke-width="2" />
+    
+    <!-- Inner Radiant Inset -->
+    <polygon points="18,3.5 30.5,9 30.5,23 18,31.5 5.5,23 5.5,9" fill="none" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="2,1.5" opacity="0.7" />
+
+    <!-- Crown Diadem on Top -->
+    <path d="M10,10 L14,14 L18,7 L22,14 L26,10 L24.5,17 L11.5,17 Z" fill="url(#bwGold)" />
+
+    <!-- Dynamic "B" & Lightning / Star Monogram -->
+    <g transform="translate(18, 23.5) scale(0.95)">
+      <!-- Stylized "B" with Wings -->
+      <path d="M-8,-6 L0,-6 C3,-6 5,-4.5 5,-2 C5,0 3.5,1 1,1.5 C4.2,2 6,3.8 6,6.5 C6,9.5 3.5,11 -1,11 L-8,11 Z M-4.5,-2.5 L-1,-2.5 C1,-2.5 2,-3 2,-4 C2,-5 1,-5.2 -1,-5.2 L-4.5,-5.2 Z M-4.5,7.8 L-0.5,7.8 C2,7.8 3,7.2 3,6 C3,4.8 2,4.2 -0.5,4.2 L-4.5,4.2 Z" fill="url(#bwGold)" filter="url(#bwGlow)" />
+      <!-- Star Sparkle at Top Right -->
+      <polygon points="7,-5 8,-2 11,-1 8,0 7,3 6,0 3,-1 6,-2" fill="#ffffff" opacity="0.95" />
+    </g>
+  </g>
+
+  <!-- Right Typography Wordmark -->
+  <g transform="translate(45, 2)" filter="url(#bwShadow)">
+    <!-- "BAAZI" Text in Metallic Polished 24K Gold -->
+    <text x="0" y="22" font-family="'Sora', system-ui, -apple-system, sans-serif" font-size="20" font-weight="950" fill="url(#bwGold)" letter-spacing="0.5" filter="url(#bwGlow)">BAAZI</text>
+
+    <!-- "WIN" Text in Glowing Electric Emerald -->
+    <text x="73" y="22" font-family="'Sora', system-ui, -apple-system, sans-serif" font-size="20" font-weight="950" fill="url(#bwWin)" letter-spacing="0.8" filter="url(#bwGlow)">WIN</text>
+
+    <!-- Tagline & Casino Emblem -->
+    <g transform="translate(0, 27.5)">
+      <!-- Tiny Ruby Diamond Gem -->
+      <polygon points="3,3.5 6,0.5 9,3.5 6,6.5" fill="url(#bwRuby)" />
+      <!-- Tagline Text -->
+      <text x="13" y="5.5" font-family="'Inter', system-ui, -apple-system, sans-serif" font-size="7.5" font-weight="800" fill="#facc15" letter-spacing="1.8">PREMIUM CASINO ARCADE</text>
+    </g>
+  </g>
+</svg>

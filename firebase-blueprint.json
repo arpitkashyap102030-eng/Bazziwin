@@ -1,0 +1,157 @@
+{
+  "$schema": "https://raw.githubusercontent.com/firebase/firebase-tools/master/schema/firestore-blueprint.json",
+  "entities": {
+    "players": {
+      "title": "Players",
+      "description": "User arcade profile, wallet balance and stats",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "username": { "type": "string" },
+        "email": { "type": "string" },
+        "balance": { "type": "number" },
+        "total_wagered": { "type": "number" },
+        "total_won": { "type": "number" },
+        "last_bonus_at": { "type": ["string", "null"] },
+        "referral_code": { "type": "string" },
+        "referred_by": { "type": ["string", "null"] },
+        "referral_count": { "type": "number" },
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      },
+      "required": ["id", "username", "balance", "total_wagered", "total_won"]
+    },
+    "game_rounds": {
+      "title": "Game Rounds",
+      "description": "History of individual game bets and outcomes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "player_id": { "type": "string" },
+        "username": { "type": "string" },
+        "game_slug": { "type": "string" },
+        "bet": { "type": "number" },
+        "payout": { "type": "number" },
+        "multiplier": { "type": "number" },
+        "details": { "type": "object" },
+        "created_at": { "type": "string" }
+      },
+      "required": ["player_id", "game_slug", "bet", "payout", "multiplier"]
+    },
+    "public_wins": {
+      "title": "Public Wins",
+      "description": "Live feed of winning bets for social display",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "game_slug": { "type": "string" },
+        "multiplier": { "type": "number" },
+        "masked_player": { "type": "string" },
+        "payout": { "type": "number" },
+        "created_at": { "type": "string" }
+      },
+      "required": ["game_slug", "multiplier", "masked_player"]
+    },
+    "quest_claims": {
+      "title": "Quest Claims",
+      "description": "Daily quest completion records",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "player_id": { "type": "string" },
+        "quest_key": { "type": "string" },
+        "reward": { "type": "number" },
+        "quest_date": { "type": "string" },
+        "created_at": { "type": "string" }
+      },
+      "required": ["player_id", "quest_key", "reward", "quest_date"]
+    },
+    "wallet_transactions": {
+      "title": "Wallet Transactions",
+      "description": "User deposit and withdrawal transactions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "player_id": { "type": "string" },
+        "kind": { "type": "string" },
+        "amount": { "type": "number" },
+        "method": { "type": "string" },
+        "status": { "type": "string" },
+        "note": { "type": ["string", "null"] },
+        "created_at": { "type": "string" }
+      },
+      "required": ["player_id", "kind", "amount", "method", "status"]
+    },
+    "deposit_requests": {
+      "title": "Deposit Requests",
+      "description": "Manual and automated UPI deposit requests with UTR numbers and approval states",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "player_id": { "type": "string" },
+        "amount": { "type": "number" },
+        "utr": { "type": "string" },
+        "utr_number": { "type": "string" },
+        "method": { "type": "string" },
+        "status": { "type": "string" },
+        "cashback": { "type": "number" },
+        "hold_reason": { "type": ["string", "null"] },
+        "reject_reason": { "type": ["string", "null"] },
+        "admin_note": { "type": ["string", "null"] },
+        "verified_by": { "type": "string" },
+        "verified_at": { "type": "string" },
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      },
+      "required": ["player_id", "amount", "status"]
+    },
+    "unclaimed_bank_credits": {
+      "title": "Unclaimed Bank Credits",
+      "description": "Temporary pool for bank SMS credits received prior to user UTR submission",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "utr_number": { "type": "string" },
+        "amount": { "type": "number" },
+        "sender": { "type": "string" },
+        "raw_sms": { "type": "string" },
+        "status": { "type": "string" },
+        "created_at": { "type": "string" },
+        "expires_at": { "type": "string" }
+      },
+      "required": ["utr_number", "amount", "status", "expires_at"]
+    },
+    "processed_utrs": {
+      "title": "Processed UTRs",
+      "description": "Unique index to prevent duplicate or replay UTR top-ups",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "utr_number": { "type": "string" },
+        "player_id": { "type": "string" },
+        "amount": { "type": "number" },
+        "processed_at": { "type": "string" }
+      },
+      "required": ["utr_number", "player_id", "amount"]
+    },
+    "game_state": {
+      "title": "Game State",
+      "description": "Real-time synchronized global multiplayer rounds for Aviator and Color Trading",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "round_id": { "type": "number" },
+        "phase": { "type": "string" },
+        "phase_start_time": { "type": "number" },
+        "crash_multiplier": { "type": "number" },
+        "speed": { "type": "number" },
+        "crash_mode": { "type": "string" },
+        "history": { "type": "array" },
+        "next_target": { "type": ["number", "null"] },
+        "emergency_crash": { "type": "boolean" },
+        "updated_at": { "type": "string" }
+      },
+      "required": ["round_id", "phase", "phase_start_time", "crash_multiplier"]
+    }
+  }
+}

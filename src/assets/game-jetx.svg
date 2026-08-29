@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="jetSky" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="40%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+    <linearGradient id="jetBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="40%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+    <linearGradient id="neonTrail" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0" />
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="1" />
+    </linearGradient>
+    <filter id="jetGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="32" fill="url(#jetSky)" />
+  <rect width="504" height="504" x="4" y="4" rx="28" fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.3" />
+
+  <!-- Retro Synthwave Perspective Grid Lines at Bottom -->
+  <g stroke="#38bdf8" stroke-width="1.5" opacity="0.25">
+    <line x1="0" y1="460" x2="512" y2="460" />
+    <line x1="0" y1="480" x2="512" y2="480" />
+    <line x1="0" y1="500" x2="512" y2="500" />
+    <line x1="256" y1="440" x2="0" y2="512" />
+    <line x1="256" y1="440" x2="128" y2="512" />
+    <line x1="256" y1="440" x2="256" y2="512" />
+    <line x1="256" y1="440" x2="384" y2="512" />
+    <line x1="256" y1="440" x2="512" y2="512" />
+  </g>
+
+  <!-- Neon Exhaust Flame Trail -->
+  <path d="M 40,460 Q 200,430 300,310 T 400,165" fill="none" stroke="url(#neonTrail)" stroke-width="14" stroke-linecap="round" filter="url(#jetGlow)" />
+
+  <!-- Supersonic Stealth Jet -->
+  <g transform="translate(390, 160) rotate(-35)" filter="url(#jetGlow)">
+    <!-- Cyan Plasma Afterburner -->
+    <ellipse cx="-75" cy="0" rx="40" ry="14" fill="#06b6d4" opacity="0.8" />
+    <ellipse cx="-55" cy="0" rx="25" ry="8" fill="#ffffff" />
+
+    <!-- Delta Wings -->
+    <polygon points="10,0 -40,-85 -10,-85 30,-5" fill="#475569" stroke="#38bdf8" stroke-width="2" />
+    <polygon points="10,0 -40,85 -10,85 30,5" fill="#475569" stroke="#38bdf8" stroke-width="2" />
+
+    <!-- Jet Fuselage -->
+    <polygon points="75,0 -60,-22 -50,0 -60,22" fill="url(#jetBody)" stroke="#e2e8f0" stroke-width="2" />
+
+    <!-- Tinted Golden Cockpit -->
+    <polygon points="40,0 5,-8 -15,-8 0,0 -15,8 5,8" fill="#facc15" stroke="#ffffff" stroke-width="1.5" />
+
+    <!-- Twin Tail Fins -->
+    <polygon points="-40,-12 -65,-38 -55,-38 -30,-12" fill="#0284c7" />
+    <polygon points="-40,12 -65,38 -55,38 -30,12" fill="#0284c7" />
+  </g>
+
+  <!-- Title Badge -->
+  <g transform="translate(60, 60)">
+    <rect width="145" height="52" rx="14" fill="#0f172a" stroke="#38bdf8" stroke-width="3" filter="url(#jetGlow)" />
+    <text x="72" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="950" fill="#38bdf8" text-anchor="middle">JET X</text>
+  </g>
+
+  <!-- Live Multiplier Display -->
+  <g transform="translate(60, 126)">
+    <rect width="115" height="34" rx="8" fill="#1e1b4b" stroke="#ec4899" stroke-width="1.5" />
+    <text x="57" y="23" font-family="system-ui, monospace" font-size="17" font-weight="900" fill="#f43f5e" text-anchor="middle">12.80x ↑</text>
+  </g>
+</svg>
