@@ -1519,6 +1519,24 @@ export function useSubmitUtr() {
         throw new Error("कृपया 12 अंकों का सही UTR नंबर डालें (Enter valid 12-digit numeric UTR)");
       }
 
+      // Stricter anti-fraud UTR pattern checks: reject obvious fake repeated sequences (e.g. 000000000000, 111111111111, 123456789012, 123412341234)
+      if (/^(\d)\1{11}$/.test(cleanUtr)) {
+        throw new Error(
+          "अमान्य UTR नंबर! कृपया असली बैंक ट्रांजेक्शन रसीद से 12-digit UTR डालें (Invalid repetitive UTR).",
+        );
+      }
+      if (
+        cleanUtr === "123456789012" ||
+        cleanUtr === "012345678901" ||
+        cleanUtr === "987654321098" ||
+        cleanUtr === "123412341234" ||
+        cleanUtr === "112233445566"
+      ) {
+        throw new Error(
+          "यह टेस्ट/फर्जी UTR अमान्य है। कृपया PhonePe/Paytm/GPay से असली UTR नंबर दर्ज करें।",
+        );
+      }
+
       const isFirst = !hasPlayerDeposited(player);
       const { cashback } = getDepositCashback(amount, isFirst);
       const now = new Date().toISOString();
@@ -1576,12 +1594,17 @@ export function useSubmitUtr() {
         if (!existingSnap.empty) {
           const existingData = existingSnap.docs[0].data();
           if (existingData.status === "COMPLETED" || existingData.status === "CONFIRMED") {
-            throw new Error("यह UTR नंबर पहले ही वेरीफाई होकर क्रेडिट हो चुका है। (UTR already used)");
+            throw new Error(
+              "यह UTR नंबर पहले ही वेरीफाई होकर क्रेडिट हो चुका है। (UTR already used)",
+            );
           }
           throw new Error("यह UTR पहले से सबमिट है और एडमिन वेरिफिकेशन के लिए पेंडिंग है।");
         }
       } catch (err: any) {
-        if (err.message && (err.message.includes("already used") || err.message.includes("पहले से सबमिट"))) {
+        if (
+          err.message &&
+          (err.message.includes("already used") || err.message.includes("पहले से सबमिट"))
+        ) {
           throw err;
         }
         // Permission or query index fallback: proceed to add

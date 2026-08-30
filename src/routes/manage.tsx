@@ -2037,7 +2037,8 @@ export function ManagePage() {
                               ⚠️ फर्जी यूजर का पूरा बैलेंस मिटाकर ₹0 करें (Wipe ALL Balance)
                             </span>
                             <p className="text-[11px] text-red-200/80 leading-tight mt-0.5">
-                              यदि यूजर ने फर्जी/गलत UTR सबमिट किया है, तो इस बॉक्स को टिक करने पर उसका पूरा वॉलेट बैलेंस तुरंत 0 हो जाएगा।
+                              यदि यूजर ने फर्जी/गलत UTR सबमिट किया है, तो इस बॉक्स को टिक करने पर
+                              उसका पूरा वॉलेट बैलेंस तुरंत 0 हो जाएगा।
                             </p>
                           </div>
                         </label>
@@ -2075,7 +2076,9 @@ export function ManagePage() {
                         className="rounded-xl bg-red-600 text-white px-5 py-2 font-display text-xs font-bold hover:bg-red-700 transition flex items-center gap-1.5 shadow-lg"
                       >
                         <XCircle className="size-4" />
-                        <span>{modalWipeAll ? "Cancel & Wipe Balance (₹0)" : "Confirm Cancel & Deduct"}</span>
+                        <span>
+                          {modalWipeAll ? "Cancel & Wipe Balance (₹0)" : "Confirm Cancel & Deduct"}
+                        </span>
                       </button>
                     )}
                   </div>

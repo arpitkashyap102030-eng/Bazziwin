@@ -11,6 +11,8 @@ type Props = {
   balance: number;
   busy: boolean;
   settle: (multiplier: number, details: Record<string, unknown>, stake?: number) => Promise<void>;
+  isDeposited?: boolean;
+  onRequireDeposit?: () => void;
 };
 
 // 10 Numbered Horses (0 to 9) categorized like Color Trading (Win Go)
@@ -302,7 +304,14 @@ function createHorseModel(horse: HorseRunner): {
   };
 }
 
-export function VirtualHorseRacing3D({ bet, balance, busy, settle }: Props) {
+export function VirtualHorseRacing3D({
+  bet,
+  balance,
+  busy,
+  settle,
+  isDeposited,
+  onRequireDeposit,
+}: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [racing, setRacing] = useState(false);
   const [cameraMode, setCameraMode] = useState<"side" | "overhead" | "finish" | "jockey">("side");
@@ -567,6 +576,10 @@ export function VirtualHorseRacing3D({ bet, balance, busy, settle }: Props) {
   /* ------------------- Bet Placement Handlers ------------------- */
   const addBet = (key: string, type: BetType) => {
     if (racing) return;
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
     playSfx("chip");
     setBets((prev) => {
       const next = new Map<string, PlacedBet>(prev);
@@ -588,6 +601,10 @@ export function VirtualHorseRacing3D({ bet, balance, busy, settle }: Props) {
   /* ------------------- Straight Track Derby Race Execution ------------------- */
   const startRace = async () => {
     if (racing || busy) return;
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
     const betList = Array.from(bets.values()) as PlacedBet[];
     const totalStake = betList.reduce((sum, b) => sum + b.amount, 0);
 

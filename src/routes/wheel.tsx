@@ -46,7 +46,7 @@ export const WHEEL_SLICES = [
     id: 2,
     amount: 10,
     label: "₹10",
-    prob: 0.10, // 10% chance
+    prob: 0.1, // 10% chance
     bgColor: "#0284c7", // Sky Blue
     textColor: "#ffffff",
   },
@@ -181,7 +181,7 @@ function Wheel() {
 
     if (rand < 0.55) {
       targetIdx = 7; // ₹2 (55%)
-    } else if (rand < 0.90) {
+    } else if (rand < 0.9) {
       targetIdx = 1; // ₹5 (35%)
     } else {
       targetIdx = 2; // ₹10 (10%)

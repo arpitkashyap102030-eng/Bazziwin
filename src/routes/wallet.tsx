@@ -162,6 +162,7 @@ function DepositForm() {
   const activeMinDeposit = appConfig?.min_deposit || MIN_DEPOSIT;
   const [amount, setAmount] = useState<number>(activeMinDeposit);
   const [utr, setUtr] = useState<string>("");
+  const [showUtrHelp, setShowUtrHelp] = useState(false);
   const { data: requests } = useDepositRequests();
   const submitUtr = useSubmitUtr();
 
@@ -171,15 +172,23 @@ function DepositForm() {
   const upiUrl = `upi://pay?pa=${encodeURIComponent(activeVpa)}&pn=${encodeURIComponent(activePayee)}&am=${amount}&cu=INR&tn=BaaziWin%20Direct%20Deposit`;
   const dynamicGeneratedQr = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(upiUrl)}&bgcolor=ffffff&color=090d16&margin=2`;
 
-  // Dynamic QR Code based on selected amount (₹100, ₹200, ₹500, ₹1000, ₹2500, ₹5000)
   const qrDisplayUrl = getDepositQrForAmount(amount, appConfig) || dynamicGeneratedQr;
+
+  const handleCopyUpi = async () => {
+    try {
+      await navigator.clipboard.writeText(activeVpa);
+      toast.success("UPI ID copied to clipboard!");
+    } catch {
+      toast.error("Failed to copy UPI ID");
+    }
+  };
 
   const handleShare = () => {
     if (navigator.share) {
       void navigator
         .share({
           title: `BaaziWin ₹${amount} Deposit QR`,
-          text: `Pay ₹${amount} on BaaziWin via UPI`,
+          text: `Pay ₹${amount} on BaaziWin via UPI (${activeVpa})`,
           url: upiUrl,
         })
         .catch(() => {});
@@ -227,112 +236,95 @@ function DepositForm() {
 
   return (
     <div className="space-y-4 text-left">
-      <div className="rounded-2xl border border-border/80 bg-surface-low p-4 shadow-md sm:p-5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400">
-              <ArrowDownToLine className="size-4" />
+      {/* Main Deposit Box */}
+      <div className="rounded-2xl border border-border/80 bg-surface-low p-4 sm:p-5 shadow-lg space-y-4">
+        {/* Header Title */}
+        <div className="flex items-center justify-between border-b border-border/60 pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              <ArrowDownToLine className="size-5" />
             </div>
             <div>
-              <h2 className="font-display text-sm font-bold text-foreground">
-                Add Cash (Direct Deposit)
+              <h2 className="font-display text-base font-extrabold text-foreground tracking-tight">
+                Add Cash (Instant Deposit)
               </h2>
               <p className="text-[11px] text-muted-foreground">
-                Direct 1:1 real money transactions (₹1 = ₹1 Real Cash)
+                1:1 Real Cash · 0% Fee · Auto-credit via UPI
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 font-mono text-[9px] font-extrabold text-emerald-400 border border-emerald-500/30">
-              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Gateway: Active
-            </span>
-          </div>
+          <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-1 font-mono text-[10px] font-extrabold text-emerald-400 border border-emerald-500/30">
+            <span className="size-1.5 rounded-full bg-emerald-400 animate-ping" />
+            Live Gateway
+          </span>
         </div>
 
         {/* Live Admin Cloud Announcement Banner */}
         {appConfig?.live_announcement && (
-          <div className="mt-3 rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-500/20 via-surface-low to-amber-500/10 p-3 flex items-center gap-2 text-xs">
+          <div className="rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-500/20 via-surface-low to-amber-500/10 p-3 flex items-center gap-2 text-xs">
             <Zap className="size-4 text-amber-400 shrink-0 animate-pulse" />
             <span className="font-semibold text-amber-200">{appConfig.live_announcement}</span>
           </div>
         )}
 
-        {/* Extra Deposit Bonus if configured */}
-        {(appConfig?.store_bonus_pct || 0) > 0 && (
-          <div className="mt-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 p-2.5 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Sparkles className="size-4 text-emerald-400 shrink-0" />
-              <div className="text-[11px] leading-tight">
-                <span className="font-bold text-emerald-300">Active Cashback Bonus: </span>
-                <span className="text-muted-foreground">
-                  Get{" "}
-                  <strong className="text-emerald-400">
-                    +{appConfig?.store_bonus_pct}% extra cash bonus
-                  </strong>{" "}
-                  on your deposit!
-                </span>
-              </div>
-            </div>
-            <span className="shrink-0 rounded-full bg-emerald-400 px-2.5 py-0.5 font-mono text-[10px] font-black text-slate-950">
-              +{appConfig?.store_bonus_pct}% BONUS
-            </span>
-          </div>
-        )}
-
-        {/* Deposit Cashback Incentive Banner */}
-        <div className="mt-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-2.5 flex items-center justify-between">
+        {/* Bonus Incentive Tag */}
+        <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Gift className="size-4 text-amber-400 shrink-0" />
             <div className="text-[11px] leading-tight">
               <span className="font-bold text-amber-300">
-                {isFirstDeposit ? "🎁 First Deposit Bonus: " : "⚡ Reload Cashback: "}
+                {isFirstDeposit ? "🎁 First Deposit Offer: " : "⚡ Reload Cashback: "}
               </span>
               <span className="text-muted-foreground">
                 {isFirstDeposit
-                  ? "₹100 (18%), ₹200 (12%), ₹500 (10%), ₹1,000 (12%), ₹2,500 (15%), ₹5,000 (17%)"
-                  : "₹100 (5%), ₹200 (6%), ₹500 (7%), ₹1,000 (9%), ₹2,500 (12%), ₹5,000 (14%)"}
+                  ? "Extra coins on ₹100, ₹200, ₹500, ₹1k, ₹2.5k, ₹5k"
+                  : "Get 5% to 14% extra bonus"}
               </span>
             </div>
           </div>
           {cb.cashback > 0 && (
-            <span className="shrink-0 rounded-full bg-amber-400 px-2 py-0.5 font-mono text-[10px] font-black text-slate-950">
+            <span className="shrink-0 rounded-full bg-amber-400 px-2.5 py-0.5 font-mono text-[10px] font-black text-slate-950 shadow-xs">
               +{cb.percent}% (+₹{cb.cashback} Free)
             </span>
           )}
         </div>
 
-        {/* Quick Amount Selector */}
-        <div className="mt-4">
-          <div className="flex items-center justify-between">
-            <label className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+        {/* Step 1: Select Amount */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label className="font-mono text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+              <span className="flex size-4 items-center justify-center rounded-full bg-primary/20 text-primary text-[10px]">
+                1
+              </span>
               Select Deposit Amount
             </label>
             <span className="font-mono text-[10px] text-emerald-400 font-bold">
-              QR Auto-Updates on Click
+              Min ₹{activeMinDeposit}
             </span>
           </div>
-          <div className="mt-2 grid grid-cols-3 sm:grid-cols-6 gap-2">
+
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
             {QUICK_AMOUNTS.map((amt) => {
               const itemCb = getDepositCashback(amt, isFirstDeposit);
+              const isSelected = amount === amt;
               return (
                 <button
                   key={amt}
                   type="button"
                   onClick={() => setAmount(amt)}
-                  className={`relative rounded-xl border py-2 px-1 font-mono text-xs font-bold transition active:scale-95 flex flex-col items-center justify-center ${
-                    amount === amt
-                      ? "border-primary bg-primary text-slate-950 shadow-md ring-2 ring-primary/40"
-                      : "border-border bg-surface-lowest text-muted-foreground hover:text-foreground"
+                  className={`relative rounded-xl border py-2.5 px-2 font-mono text-xs font-bold transition active:scale-95 flex flex-col items-center justify-center ${
+                    isSelected
+                      ? "border-primary bg-primary text-slate-950 shadow-md ring-2 ring-primary/40 font-black"
+                      : "border-border bg-surface-lowest text-muted-foreground hover:text-foreground hover:border-border/80"
                   }`}
                 >
-                  <span className="text-sm font-extrabold">₹{amt.toLocaleString()}</span>
+                  <span className="text-sm font-black">₹{amt.toLocaleString()}</span>
                   {itemCb.percent > 0 && (
                     <span
-                      className={`mt-0.5 rounded px-1 py-0.2 font-mono text-[8.5px] font-black ${
-                        amount === amt
+                      className={`mt-1 rounded px-1.5 py-0.5 font-mono text-[8.5px] font-black tracking-tight ${
+                        isSelected
                           ? "bg-slate-950 text-amber-300"
-                          : "bg-amber-500/20 text-amber-400"
+                          : "bg-amber-500/20 text-amber-400 border border-amber-500/30"
                       }`}
                     >
                       +{itemCb.percent}%
@@ -342,123 +334,170 @@ function DepositForm() {
               );
             })}
           </div>
-        </div>
 
-        {/* Custom Amount Input */}
-        <div className="mt-3 rounded-xl border border-border bg-surface-lowest p-3">
-          <label className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            Custom Amount (₹)
-          </label>
-          <div className="mt-1 flex items-center justify-between">
-            <span className="font-mono text-lg font-bold text-muted-foreground">₹</span>
+          {/* Custom Amount Input */}
+          <div className="mt-2.5 flex items-center justify-between rounded-xl border border-border bg-surface-lowest p-2.5 px-3">
+            <span className="font-mono text-base font-bold text-muted-foreground">Custom: ₹</span>
             <input
               type="number"
               inputMode="numeric"
               value={amount || ""}
               onChange={(e) => onChangeSafeAmount(e.target.value, setAmount)}
-              className="w-full bg-transparent px-2 font-mono text-xl font-extrabold text-foreground outline-none"
-              placeholder="100"
+              className="w-full bg-transparent px-2 font-mono text-base font-extrabold text-foreground outline-none"
+              placeholder="Enter amount"
             />
-            <span className="shrink-0 font-mono text-xs font-bold text-emerald-400">INR ₹</span>
+            <span className="shrink-0 font-mono text-xs font-bold text-emerald-400">INR</span>
           </div>
         </div>
 
-        {/* Pure Dynamic QR Card */}
-        <div className="mt-4 overflow-hidden rounded-2xl border-2 border-primary/40 bg-white p-4 text-slate-900 shadow-xl text-center">
-          <div className="flex items-center justify-center gap-1.5 pb-2">
-            <span className="rounded-full bg-emerald-100 px-3 py-1 font-mono text-[11px] font-black text-emerald-800 uppercase tracking-wide">
-              ₹{amount.toLocaleString()} Deposit QR Code
+        {/* Step 2: Pay via UPI Apps / QR */}
+        <div className="space-y-3 pt-1">
+          <label className="font-mono text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+            <span className="flex size-4 items-center justify-center rounded-full bg-primary/20 text-primary text-[10px]">
+              2
             </span>
-          </div>
+            Complete Payment (₹{amount.toLocaleString()})
+          </label>
 
-          {/* QR Code Graphic */}
-          <div className="my-2 flex flex-col items-center justify-center">
-            <div className="relative rounded-2xl border-2 border-slate-900 p-3 bg-white shadow-md">
-              <img
-                src={qrDisplayUrl}
-                alt={`Deposit UPI QR ₹${amount}`}
-                width={200}
-                height={200}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = dynamicGeneratedQr;
-                }}
-                className="size-52 rounded-xl object-contain"
-              />
+          {/* 1-Click Pay in UPI App Button */}
+          <a
+            href={upiUrl}
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 font-display text-sm font-extrabold text-white shadow-md transition hover:bg-emerald-500 active:scale-95"
+          >
+            <ExternalLink className="size-4" />
+            <span>Pay ₹{amount.toLocaleString()} in UPI App (PhonePe / GPay / Paytm)</span>
+          </a>
+
+          {/* Clean QR Box */}
+          <div className="overflow-hidden rounded-2xl border border-border/90 bg-white p-4 text-slate-900 shadow-md text-center">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span className="font-display text-xs font-black text-slate-900 uppercase">
+                Scan QR to Pay ₹{amount.toLocaleString()}
+              </span>
+              <span className="rounded-full bg-emerald-100 px-2 py-0.5 font-mono text-[9px] font-bold text-emerald-800">
+                0% Charge
+              </span>
             </div>
-            <p className="mt-2.5 font-display text-sm font-black text-slate-900">
-              Scan &amp; Pay ₹{amount.toLocaleString()} with any UPI App
-            </p>
-            <p className="text-[11px] text-slate-600 mt-0.5">
-              Google Pay, PhonePe, Paytm, Navi UPI, BHIM, CRED
-            </p>
 
-            {/* Direct Pay via UPI link */}
-            <a
-              href={upiUrl}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 font-display text-xs font-bold text-white shadow hover:bg-emerald-700 active:scale-95 transition"
-            >
-              <ExternalLink className="size-3.5" />
-              <span>Pay ₹{amount.toLocaleString()} directly in UPI App</span>
-            </a>
-          </div>
+            {/* QR Graphic Container */}
+            <div className="my-3 flex flex-col items-center justify-center">
+              <div className="relative rounded-2xl border-2 border-slate-900 p-2.5 bg-white shadow-sm">
+                <img
+                  src={qrDisplayUrl}
+                  alt={`Deposit UPI QR ₹${amount}`}
+                  width={180}
+                  height={180}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = dynamicGeneratedQr;
+                  }}
+                  className="size-44 sm:size-48 rounded-xl object-contain"
+                />
+              </div>
 
-          {/* Share & Download Buttons */}
-          <div className="grid grid-cols-2 gap-2 border-t border-slate-100 pt-3 mt-2">
-            <button
-              type="button"
-              onClick={handleShare}
-              className="flex h-9 items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-slate-100 font-display text-xs font-bold text-slate-800 hover:bg-slate-200 active:scale-95 transition"
-            >
-              <Send className="size-3.5" /> Share QR
-            </button>
-            <button
-              type="button"
-              onClick={handleDownloadQr}
-              className="flex h-9 items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-slate-100 font-display text-xs font-bold text-slate-800 hover:bg-slate-200 active:scale-95 transition"
-            >
-              <ArrowDownToLine className="size-3.5" /> View / Download QR
-            </button>
-          </div>
+              {/* UPI ID Row with 1-click Copy */}
+              <div className="mt-3 flex items-center justify-between gap-2 w-full max-w-xs rounded-xl bg-slate-100 p-2 border border-slate-200">
+                <div className="text-left min-w-0">
+                  <p className="text-[9px] font-bold text-slate-500 uppercase">UPI ID (VPA):</p>
+                  <p className="font-mono text-xs font-black text-slate-900 truncate">
+                    {activeVpa}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCopyUpi}
+                  className="flex items-center gap-1 rounded-lg bg-slate-900 px-2.5 py-1 text-[11px] font-bold text-white shadow-xs hover:bg-slate-800 active:scale-95 transition shrink-0"
+                >
+                  <Copy className="size-3" /> Copy
+                </button>
+              </div>
+            </div>
 
-          {/* Supported UPI Apps Footer */}
-          <div className="mt-3 rounded-xl bg-slate-50 p-2 text-center border border-slate-100">
-            <p className="text-[10px] font-semibold text-slate-600">
-              Accepted from <span className="font-black text-indigo-700">Navi UPI</span>,{" "}
-              <span className="font-black text-purple-700">PhonePe</span>,{" "}
-              <span className="font-black text-sky-600">Paytm</span>,{" "}
-              <span className="font-black text-emerald-700">GPay</span> &amp; all banks
-            </p>
+            {/* Share and Download Buttons */}
+            <div className="grid grid-cols-2 gap-2 border-t border-slate-100 pt-2.5">
+              <button
+                type="button"
+                onClick={handleShare}
+                className="flex h-8 items-center justify-center gap-1.5 rounded-lg border border-slate-300 bg-slate-50 font-display text-xs font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition"
+              >
+                <Send className="size-3" /> Share QR
+              </button>
+              <button
+                type="button"
+                onClick={handleDownloadQr}
+                className="flex h-8 items-center justify-center gap-1.5 rounded-lg border border-slate-300 bg-slate-50 font-display text-xs font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition"
+              >
+                <ArrowDownToLine className="size-3" /> Download QR
+              </button>
+            </div>
+
+            {/* Supported Brand Badges */}
+            <div className="mt-2.5 rounded-lg bg-slate-50 p-1.5 text-center border border-slate-100 flex items-center justify-center gap-2 flex-wrap text-[10px] font-bold text-slate-600">
+              <span className="text-purple-700 font-extrabold">● PhonePe</span>
+              <span className="text-sky-600 font-extrabold">● Paytm</span>
+              <span className="text-emerald-700 font-extrabold">● Google Pay</span>
+              <span className="text-orange-600 font-extrabold">● BHIM UPI</span>
+              <span className="text-indigo-700 font-extrabold">● Navi</span>
+            </div>
           </div>
         </div>
 
-        {/* UTR Input Section */}
-        <div className="mt-4">
-          <div className="flex items-center justify-between">
-            <label className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-              Enter 12-Digit UPI Ref / UTR Number
+        {/* Step 3: Enter 12-Digit UTR */}
+        <div className="pt-1">
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="font-mono text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+              <span className="flex size-4 items-center justify-center rounded-full bg-primary/20 text-primary text-[10px]">
+                3
+              </span>
+              Enter 12-Digit UPI Ref / UTR
             </label>
-            <span className="font-mono text-[10px] text-primary font-bold">
-              {utr.length}/12 Digits
+            <button
+              type="button"
+              onClick={() => setShowUtrHelp(!showUtrHelp)}
+              className="font-mono text-[10px] text-primary underline hover:text-primary/80"
+            >
+              {showUtrHelp ? "Hide Help" : "Where to find UTR?"}
+            </button>
+          </div>
+
+          {showUtrHelp && (
+            <div className="mb-2.5 rounded-xl border border-border/80 bg-surface-lowest p-2.5 text-[11px] text-muted-foreground space-y-1">
+              <p className="font-bold text-foreground">💡 How to find 12-digit UTR number:</p>
+              <p>
+                • <strong>PhonePe:</strong> Open transaction details &rarr; copy "UTR" (12 digits)
+              </p>
+              <p>
+                • <strong>Paytm:</strong> Open payment receipt &rarr; copy "UPI Ref No." (12 digits)
+              </p>
+              <p>
+                • <strong>Google Pay:</strong> Open payment details &rarr; copy "UPI Transaction ID"
+                (12 digits)
+              </p>
+            </div>
+          )}
+
+          <div className="relative">
+            <input
+              value={utr}
+              onChange={(e) => setUtr(e.target.value.replace(/\D/g, "").slice(0, 12))}
+              placeholder="e.g. 423987123456"
+              maxLength={12}
+              className="h-12 w-full rounded-xl border border-border bg-surface-lowest px-3.5 pr-16 font-mono text-sm tracking-wider text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
+            />
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-xs font-bold text-muted-foreground">
+              {utr.length}/12
             </span>
           </div>
-          <input
-            value={utr}
-            onChange={(e) => setUtr(e.target.value.replace(/\D/g, "").slice(0, 12))}
-            placeholder="e.g. 423987123456"
-            maxLength={12}
-            className="mt-1 h-11 w-full rounded-xl border border-border bg-surface-lowest px-3 font-mono text-sm tracking-wider text-foreground outline-none transition focus:border-primary"
-          />
-        </div>
 
-        <button
-          type="button"
-          disabled={submitUtr.isPending || utr.length !== 12}
-          onClick={submit}
-          className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary font-display text-xs font-extrabold uppercase tracking-wider text-slate-950 shadow-md transition active:scale-95 disabled:opacity-50"
-        >
-          <CheckCircle2 className="size-4" />
-          {submitUtr.isPending ? "Verifying with Bank..." : "Verify & Add Coins"}
-        </button>
+          <button
+            type="button"
+            disabled={submitUtr.isPending || utr.length !== 12}
+            onClick={submit}
+            className="mt-3 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary font-display text-xs font-black uppercase tracking-wider text-slate-950 shadow-md transition active:scale-95 disabled:opacity-50 hover:brightness-110"
+          >
+            <CheckCircle2 className="size-4" />
+            {submitUtr.isPending ? "Verifying with Bank..." : "Verify & Add Cash"}
+          </button>
+        </div>
       </div>
 
       {/* Recent Deposits List */}
@@ -735,10 +774,22 @@ function WithdrawForm({ max, onSwitchToDeposit }: { max: number; onSwitchToDepos
 
     try {
       await withdraw.mutateAsync({ amount, method: method.toLowerCase(), note: upiDest });
-      toast.success("Withdrawal request submitted — Express payout in 1-5 minutes!");
+      toast.success("⚡ Withdrawal request submitted! Express payout in 1-5 minutes.");
       setUpiDest("");
     } catch (e: any) {
       toast.error(e.message || "Withdrawal request failed");
+    }
+  };
+
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) {
+        setUpiDest(text.trim());
+        toast.success("UPI ID pasted!");
+      }
+    } catch {
+      toast.info("Paste your UPI ID manually in the box");
     }
   };
 
@@ -803,118 +854,173 @@ function WithdrawForm({ max, onSwitchToDeposit }: { max: number; onSwitchToDepos
 
   return (
     <div className="space-y-4 text-left">
-      <div className="rounded-2xl border border-border/80 bg-surface-low p-4 shadow-md sm:p-5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400">
-              <Zap className="size-4" />
+      <div className="rounded-2xl border border-border/80 bg-surface-low p-4 sm:p-5 shadow-lg space-y-4">
+        {/* Header Title */}
+        <div className="flex items-center justify-between border-b border-border/60 pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              <Zap className="size-5" />
             </div>
             <div>
-              <h2 className="font-display text-sm font-bold text-foreground">
-                Express UPI Withdrawal
+              <h2 className="font-display text-base font-extrabold text-foreground tracking-tight">
+                Express Cashout (Withdraw)
               </h2>
               <p className="text-[11px] text-muted-foreground">
-                1 to 5 minutes direct bank transfer
+                1-5 Minutes direct transfer · 0% Deduction
               </p>
             </div>
           </div>
-          <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 font-mono text-[10px] font-bold text-emerald-400">
-            1-5 Min Speed
+          <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-1 font-mono text-[10px] font-extrabold text-emerald-400 border border-emerald-500/30">
+            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />⚡ 1-5 Min Speed
           </span>
         </div>
 
-        {/* Withdrawable Balance Info */}
-        <div className="mt-4 flex items-center justify-between rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3">
-          <span className="font-mono text-xs text-muted-foreground">Withdrawable Main Cash:</span>
-          <span className="font-display text-xl font-bold text-emerald-400">
-            ₹{max.toLocaleString()}
+        {/* Withdrawable Balance Info Card */}
+        <div className="flex items-center justify-between rounded-xl border border-emerald-500/40 bg-emerald-950/25 p-3.5 shadow-xs">
+          <div>
+            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+              Available Withdrawable Balance
+            </span>
+            <p className="font-display text-2xl font-black text-foreground sm:text-3xl mt-0.5">
+              ₹{max.toLocaleString()}
+            </p>
+          </div>
+          <span className="flex items-center gap-1 rounded-lg bg-emerald-500/20 px-2 py-1 font-mono text-[10px] font-bold text-emerald-300 border border-emerald-500/30">
+            <ShieldCheck className="size-3.5" /> 100% Cashout
           </span>
         </div>
 
-        {/* Amount Input */}
-        <div className="mt-3 rounded-xl border border-border bg-surface-lowest p-3">
-          <label className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            Withdraw Amount (Min ₹100)
-          </label>
-          <div className="mt-1 flex items-center justify-between">
-            <span className="font-mono text-lg font-bold text-muted-foreground">₹</span>
+        {/* Step 1: Amount Input */}
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="font-mono text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+              <span className="flex size-4 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[10px]">
+                1
+              </span>
+              Withdrawal Amount (Min ₹{MIN_WITHDRAW})
+            </label>
+            <button
+              type="button"
+              onClick={() => setAmount(max)}
+              className="font-mono text-[10px] font-bold text-emerald-400 hover:underline"
+            >
+              Withdraw All (Max ₹{max})
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between rounded-xl border border-border bg-surface-lowest p-2.5 px-3">
+            <span className="font-mono text-base font-bold text-muted-foreground">₹</span>
             <input
               type="number"
               inputMode="numeric"
               value={amount || ""}
               onChange={(e) => onChangeSafeAmount(e.target.value, setAmount)}
-              className="w-full bg-transparent px-2 font-mono text-xl font-extrabold text-foreground outline-none"
-              placeholder="100"
+              className="w-full bg-transparent px-2 font-mono text-base font-extrabold text-foreground outline-none"
+              placeholder="Enter amount"
             />
             <button
               type="button"
               onClick={() => setAmount(max)}
-              className="rounded-lg border border-border bg-surface-high px-2 py-1 font-mono text-xs font-bold text-primary hover:bg-surface-high/80"
+              className="rounded-lg bg-surface-high px-2.5 py-1 font-mono text-xs font-bold text-primary hover:bg-surface-high/80 transition"
             >
               MAX
             </button>
           </div>
-        </div>
 
-        {/* Quick Percent Options */}
-        <div className="mt-2 grid grid-cols-4 gap-1.5">
-          {[25, 50, 75, 100].map((pct) => (
-            <button
-              key={pct}
-              type="button"
-              onClick={() => setAmount(Math.max(MIN_WITHDRAW, Math.floor((max * pct) / 100)))}
-              className="rounded-lg border border-border bg-surface-lowest py-1.5 font-mono text-xs font-bold text-foreground transition hover:border-emerald-500/50"
-            >
-              {pct === 100 ? "MAX" : `${pct}%`}
-            </button>
-          ))}
-        </div>
-
-        {/* Payout Channel */}
-        <div className="mt-4">
-          <label className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            Select Payout Channel
-          </label>
-          <div className="mt-1.5 grid grid-cols-4 gap-1.5">
-            {METHODS.map((m) => (
+          {/* Quick Percent Options */}
+          <div className="mt-2 grid grid-cols-4 gap-1.5">
+            {[25, 50, 75, 100].map((pct) => (
               <button
-                key={m}
+                key={pct}
                 type="button"
-                onClick={() => setMethod(m)}
-                className={`rounded-xl border py-2 text-xs font-bold transition ${
-                  method === m
-                    ? "border-emerald-500 bg-emerald-500 text-slate-950 shadow-sm"
-                    : "border-border bg-surface-lowest text-muted-foreground hover:text-foreground"
-                }`}
+                onClick={() => setAmount(Math.max(MIN_WITHDRAW, Math.floor((max * pct) / 100)))}
+                className="rounded-lg border border-border bg-surface-lowest py-2 font-mono text-xs font-bold text-foreground transition hover:border-emerald-500/50 active:scale-95"
               >
-                {m}
+                {pct === 100 ? "100% MAX" : `${pct}%`}
               </button>
             ))}
           </div>
         </div>
 
-        {/* UPI ID Input */}
-        <div className="mt-3">
-          <label className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            Enter Your UPI ID / Mobile VPA
+        {/* Step 2: Payout Channel */}
+        <div>
+          <label className="font-mono text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1 mb-1.5">
+            <span className="flex size-4 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[10px]">
+              2
+            </span>
+            Select Payout App / Method
           </label>
-          <input
-            value={upiDest}
-            onChange={(e) => setUpiDest(e.target.value)}
-            placeholder="e.g. yourname@paytm or 9876543210@upi"
-            className="mt-1 h-11 w-full rounded-xl border border-border bg-surface-lowest px-3 font-mono text-xs text-foreground outline-none transition focus:border-emerald-500"
-          />
+          <div className="grid grid-cols-4 gap-1.5">
+            {METHODS.map((m) => {
+              const isSelected = method === m;
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMethod(m)}
+                  className={`rounded-xl border py-2.5 text-xs font-extrabold transition active:scale-95 ${
+                    isSelected
+                      ? "border-emerald-500 bg-emerald-500 text-slate-950 shadow-md ring-1 ring-emerald-400"
+                      : "border-border bg-surface-lowest text-muted-foreground hover:text-foreground hover:border-border/80"
+                  }`}
+                >
+                  {m}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
+        {/* Step 3: UPI ID / Account Number Input */}
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="font-mono text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+              <span className="flex size-4 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[10px]">
+                3
+              </span>
+              Receiving UPI ID / Phone / VPA
+            </label>
+            <button
+              type="button"
+              onClick={handlePaste}
+              className="font-mono text-[10px] text-emerald-400 font-bold hover:underline"
+            >
+              Paste from Clipboard
+            </button>
+          </div>
+
+          <div className="relative">
+            <input
+              value={upiDest}
+              onChange={(e) => setUpiDest(e.target.value)}
+              placeholder="e.g. 9876543210@paytm, user@ybl, name@oksbi"
+              className="h-12 w-full rounded-xl border border-border bg-surface-lowest px-3.5 font-mono text-xs sm:text-sm text-foreground outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+            />
+          </div>
+        </div>
+
+        {/* Withdraw Action Button */}
         <button
           type="button"
-          disabled={withdraw.isPending || max < MIN_WITHDRAW}
+          disabled={
+            withdraw.isPending || max < MIN_WITHDRAW || amount < MIN_WITHDRAW || amount > max
+          }
           onClick={submit}
-          className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 font-display text-xs font-extrabold uppercase tracking-wider text-slate-950 shadow-md transition active:scale-95 disabled:opacity-50"
+          className="mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 font-display text-xs font-black uppercase tracking-wider text-slate-950 shadow-md transition active:scale-95 disabled:opacity-50 hover:bg-emerald-400"
         >
           <Zap className="size-4" />
-          {withdraw.isPending ? "Processing..." : "Withdraw Cash (1-5 Min Express)"}
+          {withdraw.isPending
+            ? "Processing Transfer..."
+            : `Withdraw ₹${amount.toLocaleString()} (Express 1-5 Min)`}
         </button>
+
+        {/* Guarantee Badge */}
+        <div className="rounded-xl bg-surface-lowest p-2 text-center border border-border/80">
+          <p className="text-[10px] font-semibold text-muted-foreground flex items-center justify-center gap-1.5">
+            <ShieldCheck className="size-3.5 text-emerald-400 shrink-0" />
+            Direct Automated Payout · 24x7 Instant Processing · Zero Commission
+          </p>
+        </div>
       </div>
     </div>
   );

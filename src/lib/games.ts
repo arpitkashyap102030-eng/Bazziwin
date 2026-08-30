@@ -242,16 +242,30 @@ export function rollCrashPoint(customRtp?: number, manualTarget?: number): numbe
     }
   } catch {}
 
-  const effectiveRtp = typeof customRtp === "number" ? customRtp : getEffectiveRTP();
   const globalMult = getGlobalGameMultiplier();
-  const u = Math.random();
+  const rand = Math.random(); // 0 to 1
 
-  // Instant bust chance dynamically scaled based on house edge
-  const instantBustThreshold = Math.max(0.02, Math.min(0.15, (1 - effectiveRtp) * 0.8));
-  if (u < instantBustThreshold) return 1.0;
+  let mult: number;
 
-  const raw = (effectiveRtp / (1 - u)) * globalMult;
-  return Math.min(1000, Math.max(1.01, Math.floor(raw * 100) / 100));
+  if (rand < 0.15) {
+    // 15% Instant/Early takeoff bust (1.00x - 1.15x)
+    mult = 1.0 + Math.random() * 0.15;
+  } else if (rand < 0.75) {
+    // 60% Low multiplier zone (1.16x - 2.10x)
+    mult = 1.16 + Math.random() * 0.94;
+  } else if (rand < 0.92) {
+    // 17% Medium flight zone (2.11x - 4.80x)
+    mult = 2.11 + Math.random() * 2.69;
+  } else if (rand < 0.99) {
+    // ~7% (1 in 12-14 rounds, exactly 10 se 15 baar me 1 baar) High flight to 10x - 16.5x
+    mult = 10.0 + Math.random() * 6.5;
+  } else {
+    // 1% Rare mega flight (18x - 32x)
+    mult = 18.0 + Math.random() * 14.0;
+  }
+
+  const finalMult = Math.round(mult * globalMult * 100) / 100;
+  return Math.max(1.01, finalMult);
 }
 
 /** Multiplier for surviving `steps` independent hazards of probability `risk`, using active algorithm RTP. */

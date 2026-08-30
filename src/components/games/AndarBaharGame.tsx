@@ -11,6 +11,8 @@ type Props = {
   balance: number;
   busy: boolean;
   settle: (multiplier: number, details: Record<string, unknown>, stake?: number) => Promise<void>;
+  isDeposited?: boolean;
+  onRequireDeposit?: () => void;
 };
 
 // Playing card types
@@ -64,7 +66,14 @@ interface RoundHistory {
   won: boolean;
 }
 
-export function AndarBaharGame({ bet, balance, busy, settle }: Props) {
+export function AndarBaharGame({
+  bet,
+  balance,
+  busy,
+  settle,
+  isDeposited,
+  onRequireDeposit,
+}: Props) {
   const [stake, setStake] = useState<number>(Math.max(10, bet));
   const [selectedSide, setSelectedSide] = useState<BetTarget>("andar");
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -111,6 +120,10 @@ export function AndarBaharGame({ bet, balance, busy, settle }: Props) {
   // Deal round handler with pleasant, slowed down deal interval (700ms)
   const dealRound = async () => {
     if (isPlaying || busy) return;
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
     if (stake > balance) {
       toast.error("Insufficient INR Balance. Please deposit in your wallet.");
       return;

@@ -12,6 +12,8 @@ type Props = {
   balance: number;
   busy: boolean;
   settle: (multiplier: number, details: Record<string, unknown>, stake?: number) => Promise<void>;
+  isDeposited?: boolean;
+  onRequireDeposit?: () => void;
 };
 
 export type PickType =
@@ -92,7 +94,7 @@ const GAME_MODES = [
 const MULTIPLIER_PRESETS = [1, 5, 10, 20, 50, 100];
 const UNIT_STAKES = [1, 10, 100, 1000];
 
-export function ColorGame({ balance, settle }: Props) {
+export function ColorGame({ balance, settle, isDeposited, onRequireDeposit }: Props) {
   const [mode, setMode] = useState("30s");
   const currentDuration = GAME_MODES.find((m) => m.id === mode)?.duration || 30;
 
@@ -339,6 +341,10 @@ export function ColorGame({ balance, settle }: Props) {
 
   // Select pick on the board -> Immediately open bottom drawer as shown in screenshot!
   const handleSelectPick = (pick: PickType) => {
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
     if (secondsRemaining <= 5) {
       toast.error("Betting is locked in the final 5 seconds.");
       return;
@@ -350,6 +356,11 @@ export function ColorGame({ balance, settle }: Props) {
 
   // Place bet from drawer
   const handlePlaceBetNow = () => {
+    if (isDeposited === false && onRequireDeposit) {
+      setBetDrawerOpen(false);
+      onRequireDeposit();
+      return;
+    }
     if (!selectedPick) {
       toast.error("Please select a Color or Number ball first!");
       return;

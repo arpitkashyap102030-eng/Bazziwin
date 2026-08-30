@@ -11,6 +11,8 @@ type Props = {
   balance: number;
   busy: boolean;
   settle: (multiplier: number, details: Record<string, unknown>, stake?: number) => Promise<void>;
+  isDeposited?: boolean;
+  onRequireDeposit?: () => void;
 };
 
 type RiskLevel = "low" | "medium" | "high";
@@ -25,7 +27,7 @@ const ROWS = 12;
 const PEG_SPACING_X = 0.55;
 const PEG_SPACING_Y = 0.5;
 
-export function Plinko3D({ bet, balance, busy, settle }: Props) {
+export function Plinko3D({ bet, balance, busy, settle, isDeposited, onRequireDeposit }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [risk, setRisk] = useState<RiskLevel>("medium");
   const [dropping, setDropping] = useState<boolean>(false);
@@ -205,7 +207,15 @@ export function Plinko3D({ bet, balance, busy, settle }: Props) {
 
   /* ------------------- Drop Physics Ball ------------------- */
   const dropBall = async () => {
-    if (dropping || busy || activeStake > balance || !sceneRef.current) return;
+    if (dropping || busy || !sceneRef.current) return;
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
+    if (activeStake > balance) {
+      toast.error("Insufficient coins for this bet");
+      return;
+    }
     setDropping(true);
     playSfx("chip");
 

@@ -5,6 +5,7 @@ import { AppShell } from "@/components/AppShell";
 import { CATEGORIES, GAMES, formatCoins, type Category } from "@/lib/games";
 import { usePlayer, usePublicWins, useSession } from "@/lib/player";
 import { GameImage } from "@/components/GameImage";
+import { HeroBannerCarousel } from "@/components/HeroBannerCarousel";
 import heroCoins from "@/assets/hero-bonus-coins.png";
 import inviteFriends from "@/assets/invite-friends.png";
 
@@ -105,45 +106,9 @@ function Home() {
     <AppShell>
       <h1 className="sr-only">BaaziWin — play crash, mines, roulette and skill games</h1>
 
-      {/* Hero */}
+      {/* Hero Banner Carousel */}
       <section className="px-3 pt-4">
-        <div className="relative h-48 overflow-hidden rounded-2xl border border-primary/40 bg-gradient-to-br from-primary via-primary/70 to-primary/30 shadow-lg">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-60"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 85% 20%, var(--glow-primary), transparent 65%)",
-            }}
-          />
-          <div className="relative z-10 flex h-full max-w-[66%] flex-col justify-center p-4 sm:p-5">
-            <p className="label-mono text-[11px] text-primary-foreground/90 font-bold">
-              Welcome Offer · 100% Free
-            </p>
-            <p className="mt-1 font-display text-xl sm:text-2xl font-black leading-snug text-primary-foreground">
-              Sign up &amp; get
-              <br />
-              <span className="text-amber-300 drop-shadow-sm">₹100 bonus</span>
-            </p>
-            <Link
-              to={user ? "/wheel" : "/auth"}
-              search={user ? undefined : { mode: "up" as const }}
-              className="mt-3.5 w-max rounded-full bg-primary-foreground px-5 py-1.5 font-display text-xs sm:text-sm font-bold text-primary shadow-xl active:scale-95 transition"
-            >
-              {user ? "Spin daily bonus" : "Join now"}
-            </Link>
-          </div>
-          <img
-            src={heroCoins}
-            alt=""
-            width={768}
-            height={768}
-            referrerPolicy="no-referrer"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
-            className="pointer-events-none absolute -bottom-3 -right-4 size-40 rotate-6 object-contain drop-shadow-2xl"
-          />
-        </div>
+        <HeroBannerCarousel user={user} />
       </section>
 
       {/* Pots */}

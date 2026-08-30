@@ -30,6 +30,8 @@ type Props = {
   balance: number;
   busy: boolean;
   settle: (multiplier: number, details: Record<string, unknown>, stake?: number) => Promise<void>;
+  isDeposited?: boolean;
+  onRequireDeposit?: () => void;
 };
 
 type DifficultyLevel = "easy" | "medium" | "hard" | "daredevil";
@@ -89,7 +91,15 @@ interface TrafficVehicle {
   direction: "up" | "down";
 }
 
-export function RoadGame({ game, bet, balance, busy, settle }: Props) {
+export function RoadGame({
+  game,
+  bet,
+  balance,
+  busy,
+  settle,
+  isDeposited,
+  onRequireDeposit,
+}: Props) {
   // Current game state
   const [stake, setStake] = useState<number>(Math.max(1, bet));
   const [difficulty, setDifficulty] = useState<DifficultyLevel>("easy");
@@ -163,6 +173,10 @@ export function RoadGame({ game, bet, balance, busy, settle }: Props) {
 
   // Start new round
   const startGame = () => {
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
     if (stake > balance) {
       toast.error("Insufficient INR Balance");
       return;

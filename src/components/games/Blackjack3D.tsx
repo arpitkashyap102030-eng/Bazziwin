@@ -23,6 +23,8 @@ type Props = {
   balance: number;
   busy: boolean;
   settle: (multiplier: number, details: Record<string, unknown>, stake?: number) => Promise<void>;
+  isDeposited?: boolean;
+  onRequireDeposit?: () => void;
 };
 
 type Card = {
@@ -96,7 +98,7 @@ function createCardMesh(card: Card, faceUp: boolean): THREE.Group {
   return cardGroup;
 }
 
-export function Blackjack3D({ bet, balance, busy, settle }: Props) {
+export function Blackjack3D({ bet, balance, busy, settle, isDeposited, onRequireDeposit }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [gameState, setGameState] = useState<"idle" | "playing" | "dealer_turn" | "finished">(
     "idle",
@@ -369,6 +371,10 @@ export function Blackjack3D({ bet, balance, busy, settle }: Props) {
   /* ------------------- Deal Initial Cards ------------------- */
   const startNewHand = async () => {
     if (gameState === "playing" || busy) return;
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
     if (bet > balance) {
       toast.error("Insufficient coins for this bet");
       return;

@@ -10,9 +10,19 @@ type Props = {
   balance: number;
   busy: boolean;
   settle: (multiplier: number, details: Record<string, unknown>) => Promise<void>;
+  isDeposited?: boolean;
+  onRequireDeposit?: () => void;
 };
 
-export function TowerGame({ game, bet, balance, busy, settle }: Props) {
+export function TowerGame({
+  game,
+  bet,
+  balance,
+  busy,
+  settle,
+  isDeposited,
+  onRequireDeposit,
+}: Props) {
   const floors = Number(game.config.floors ?? 8);
   const choices = Number(game.config.choices ?? 3);
   const traps = Number(game.config.traps ?? 1);
@@ -25,6 +35,10 @@ export function TowerGame({ game, bet, balance, busy, settle }: Props) {
   const current = floor === 0 ? 1 : stepMultiplier(floor, risk);
 
   const begin = () => {
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
     if (bet > balance) return toast.error("Not enough coins");
     playSfx("start");
     setFloor(0);

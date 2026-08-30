@@ -8,9 +8,11 @@ type Props = {
   balance: number;
   busy: boolean;
   settle: (multiplier: number, details: Record<string, unknown>) => Promise<void>;
+  isDeposited?: boolean;
+  onRequireDeposit?: () => void;
 };
 
-export function DiceGame({ bet, balance, busy, settle }: Props) {
+export function DiceGame({ bet, balance, busy, settle, isDeposited, onRequireDeposit }: Props) {
   const [target, setTarget] = useState(50);
   const [roll, setRoll] = useState<number | null>(null);
   const [won, setWon] = useState<boolean | null>(null);
@@ -20,6 +22,10 @@ export function DiceGame({ bet, balance, busy, settle }: Props) {
   const payout = Math.round((HOUSE_EDGE / chance) * 100) / 100;
 
   const play = async () => {
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
     playSfx("reveal");
     if (bet > balance) return toast.error("Not enough coins");
     setRolling(true);

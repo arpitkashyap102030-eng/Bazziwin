@@ -24,7 +24,10 @@ export function UpdateGate() {
 
   const open = () => {
     if (!config.apk_url) return;
-    window.open(config.apk_url, "_system") ?? window.open(config.apk_url, "_blank");
+    const win = window.open(config.apk_url, "_system");
+    if (!win) {
+      window.open(config.apk_url, "_blank");
+    }
   };
 
   return (

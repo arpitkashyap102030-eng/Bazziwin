@@ -11,6 +11,8 @@ type Props = {
   balance: number;
   busy: boolean;
   settle: (multiplier: number, details: Record<string, unknown>, stake?: number) => Promise<void>;
+  isDeposited?: boolean;
+  onRequireDeposit?: () => void;
 };
 
 // Standard European Roulette Wheel Numbers in sequential pocket order (37 pockets)
@@ -31,7 +33,14 @@ type BetType =
 
 type BetEntry = { type: BetType; amount: number };
 
-export function ImmersiveRoulette3D({ bet, balance, busy, settle }: Props) {
+export function ImmersiveRoulette3D({
+  bet,
+  balance,
+  busy,
+  settle,
+  isDeposited,
+  onRequireDeposit,
+}: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [spinning, setSpinning] = useState(false);
   const [selectedBets, setSelectedBets] = useState<Map<string, BetEntry>>(
@@ -316,6 +325,10 @@ export function ImmersiveRoulette3D({ bet, balance, busy, settle }: Props) {
   /* ------------------- Add / Modify Bet on Table ------------------- */
   const addBet = (key: string, type: BetType) => {
     if (spinning) return;
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
     playSfx("chip");
     setSelectedBets((prev) => {
       const next = new Map<string, BetEntry>(prev);
@@ -337,6 +350,10 @@ export function ImmersiveRoulette3D({ bet, balance, busy, settle }: Props) {
   /* ------------------- Spin Roulette Wheel with Physics ------------------- */
   const spinWheel = async () => {
     if (spinning || busy) return;
+    if (isDeposited === false && onRequireDeposit) {
+      onRequireDeposit();
+      return;
+    }
     const betEntries = Array.from(selectedBets.values()) as BetEntry[];
     const totalStake = betEntries.reduce((sum, b) => sum + b.amount, 0);
     if (totalStake === 0) {
@@ -408,19 +425,21 @@ export function ImmersiveRoulette3D({ bet, balance, busy, settle }: Props) {
             totalWon += amount * 2;
           }
           break;
-        case "dozen":
+        case "dozen": {
           const doz =
             winningNum >= 1 && winningNum <= 12 ? 1 : winningNum >= 13 && winningNum <= 24 ? 2 : 3;
           if (winningNum !== 0 && type.value === doz) {
             totalWon += amount * 3;
           }
           break;
-        case "column":
+        }
+        case "column": {
           const col = winningNum % 3 === 1 ? 1 : winningNum % 3 === 2 ? 2 : 3;
           if (winningNum !== 0 && type.value === col) {
             totalWon += amount * 3;
           }
           break;
+        }
       }
     });
 
