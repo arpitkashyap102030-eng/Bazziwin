@@ -113,21 +113,16 @@ function TopBar() {
             </Link>
           )}
 
-          <div className="flex items-center rounded-full border border-primary/30 bg-surface-high/90 shadow-sm transition-all hover:border-primary/60">
-            <Link to="/wallet" className="flex items-center gap-1.5 py-1 pl-2.5 pr-2">
-              <Wallet className="size-3.5 shrink-0 text-primary" aria-hidden />
-              <span className="font-mono text-xs font-bold tabular-nums text-primary">
-                {player ? `₹${formatMoney(player.balance)}` : "—"}
-              </span>
-            </Link>
-            <Link
-              to="/wallet"
-              aria-label="Deposit or withdraw money"
-              className="m-0.5 flex size-6 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm transition hover:scale-105 active:scale-95"
-            >
-              <Plus className="size-3.5 stroke-[2.5]" aria-hidden />
-            </Link>
-          </div>
+          <Link
+            to="/wallet"
+            className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-surface-high/90 px-3 py-1.5 shadow-sm transition-all hover:border-primary/60 hover:bg-surface-highest active:scale-95"
+            title="Open Wallet"
+          >
+            <Wallet className="size-3.5 shrink-0 text-primary" aria-hidden />
+            <span className="font-mono text-xs font-bold tabular-nums text-primary">
+              {player ? `₹${formatMoney(player.balance)}` : "—"}
+            </span>
+          </Link>
           <SoundToggle />
           <button
             onClick={() => signOut(auth)}
@@ -158,7 +153,7 @@ function TopBar() {
 
 const NAV = [
   { to: "/", label: "Menu", Icon: Grid3x3 },
-  { to: "/explore", label: "Explore", Icon: Search },
+  { to: "/wallet", label: "Wallet", Icon: Wallet },
   { to: "/invite", label: "Invite", Icon: Users },
   { to: "/quest", label: "Quest", Icon: ClipboardList },
 ] as const;

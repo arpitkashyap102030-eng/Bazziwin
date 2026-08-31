@@ -13,6 +13,8 @@ service cloud.firestore {
     function isAdmin() {
       return isAuthenticated() && (
         request.auth.token.email in [
+          '7579973416@phone.baaziwin.in',
+          '9286987657@phone.baaziwin.in',
           'ujjawalriwal999@gmail.com',
           'kanishpratapsingh9@gmail.com',
           'kanishpratapsingh@gmail.com',

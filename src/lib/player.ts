@@ -162,10 +162,33 @@ export function useSession() {
   return { ready, user };
 }
 
-export async function fetchOrCreatePlayer(user: User | null): Promise<Player> {
+export async function fetchOrCreatePlayer(
+  user: User | null,
+  extraData?: { username?: string; phone?: string },
+): Promise<Player> {
   if (!user) {
     return getLocalGuestPlayer();
   }
+
+  // Derive phone if user email is our phone-auth format (e.g. 9876543210@phone.baaziwin.in)
+  let inferredPhone: string | null = null;
+  if (user.email && user.email.includes("@")) {
+    const [prefix, domain] = user.email.split("@");
+    if (domain.includes("baaziwin") || domain.includes("phone")) {
+      const cleanDigits = prefix.replace(/\D/g, "");
+      if (cleanDigits.length >= 10) {
+        inferredPhone = cleanDigits.slice(-10);
+      }
+    }
+  }
+
+  const phoneValue = extraData?.phone?.trim() || inferredPhone || null;
+  const usernameValue =
+    extraData?.username?.trim() ||
+    user.displayName ||
+    (inferredPhone ? `Player_${inferredPhone.slice(-4)}` : null) ||
+    user.email?.split("@")[0] ||
+    `User_${user.uid.slice(0, 5)}`;
 
   const ref = doc(db, "players", user.uid);
   try {
@@ -186,16 +209,30 @@ export async function fetchOrCreatePlayer(user: User | null): Promise<Player> {
         void setDoc(ref, { referral_code: playerRefCode }, { merge: true }).catch(() => {});
       }
 
+      // If missing phone or username was supplied, update Firestore in background
+      const updatesToSync: Record<string, unknown> = {};
+      if (!d.phone && phoneValue) {
+        updatesToSync.phone = phoneValue;
+      }
+      if (extraData?.username && extraData.username.trim() !== d.username) {
+        updatesToSync.username = extraData.username.trim();
+      }
+      if (Object.keys(updatesToSync).length > 0) {
+        void setDoc(ref, updatesToSync, { merge: true }).catch(() => {});
+      }
+
       return {
         id: user.uid,
         username:
+          extraData?.username?.trim() ||
           d.username ||
           user.displayName ||
+          (inferredPhone ? `Player_${inferredPhone.slice(-4)}` : null) ||
           user.email?.split("@")[0] ||
           `User_${user.uid.slice(0, 5)}`,
         email: user.email,
-        phone: d.phone || null,
-        phone_verified: Boolean(d.phone_verified),
+        phone: d.phone || phoneValue,
+        phone_verified: Boolean(d.phone_verified || phoneValue),
         avatar: d.avatar || "🐯",
         balance: totalBal,
         deposit_balance: depBal,
@@ -216,10 +253,10 @@ export async function fetchOrCreatePlayer(user: User | null): Promise<Player> {
       const generatedCode = generateUniqueRefCode();
       const newP: Player = {
         id: user.uid,
-        username: user.displayName || user.email?.split("@")[0] || `User_${user.uid.slice(0, 5)}`,
+        username: usernameValue,
         email: user.email,
-        phone: null,
-        phone_verified: false,
+        phone: phoneValue,
+        phone_verified: Boolean(phoneValue),
         avatar: "🐯",
         balance: 100,
         deposit_balance: 0,

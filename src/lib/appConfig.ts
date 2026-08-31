@@ -3,33 +3,52 @@ import { doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 export const SUPER_ADMIN_EMAILS = [
+  "7579973416@phone.baaziwin.in",
+  "9286987657@phone.baaziwin.in",
   "ujjawalriwal999@gmail.com",
   "kanishpratapsingh9@gmail.com",
   "kanishpratapsingh@gmail.com",
   "arpitkashyap102030@gmail.com",
 ];
 
-export const MASTER_ADMIN_EMAIL = "ujjawalriwal999@gmail.com";
+export const MASTER_ADMIN_EMAIL = "7579973416@phone.baaziwin.in";
 export const MASTER_ADMIN_DEFAULT_PASS = "ujjawalriwal282010";
 
 export const SUPER_ADMIN_CREDENTIALS = [
   {
-    email: "ujjawalriwal999@gmail.com",
+    email: "7579973416@phone.baaziwin.in",
+    phone: "7579973416",
     defaultPass: "ujjawalriwal282010",
     validPasswords: ["ujjawalriwal282010"],
-    label: "Admin 1 (Ujjawal)",
+    label: "Admin 1 (Ujjawal - 7579973416)",
+  },
+  {
+    email: "ujjawalriwal999@gmail.com",
+    phone: "7579973416",
+    defaultPass: "ujjawalriwal282010",
+    validPasswords: ["ujjawalriwal282010"],
+    label: "Admin 1 (Ujjawal Google)",
+  },
+  {
+    email: "9286987657@phone.baaziwin.in",
+    phone: "9286987657",
+    defaultPass: "@vash1234",
+    validPasswords: ["@vash1234", "@BASH1234", "@VASH1234", "vash1234", "@bash1234"],
+    label: "Admin 2 (Arpit / Kanish - 9286987657)",
   },
   {
     email: "kanishpratapsingh9@gmail.com",
+    phone: "9286987657",
     defaultPass: "@vash1234",
     validPasswords: ["@vash1234", "@BASH1234", "@VASH1234", "vash1234", "@bash1234"],
     label: "Admin 2 (Kanish Pratap)",
   },
   {
-    email: "kanishpratapsingh@gmail.com",
+    email: "arpitkashyap102030@gmail.com",
+    phone: "9286987657",
     defaultPass: "@vash1234",
     validPasswords: ["@vash1234", "@BASH1234", "@VASH1234", "vash1234", "@bash1234"],
-    label: "Admin 2 (Kanish Alias)",
+    label: "Admin 2 (Arpit Kashyap)",
   },
 ];
 
